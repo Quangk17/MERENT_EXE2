@@ -7,13 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Commons\" />
     <Folder Include="Interfaces\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Utils\" />
     <Folder Include="Services\" />
     <Folder Include="ServiceRespones\" />
-    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>
