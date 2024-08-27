@@ -5,11 +5,11 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "MERENT\Application.csproj", "{F734D4F0-0910-4546-8306-92EB6754643E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{1D693EC9-CCAC-41C5-AE5F-F82EAE5A664B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{1D693EC9-CCAC-41C5-AE5F-F82EAE5A664B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructures", "Infrastructures\Infrastructures.csproj", "{FB349475-917E-4938-BDD7-5C89C31435CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructures", "Infrastructures\Infrastructures.csproj", "{FB349475-917E-4938-BDD7-5C89C31435CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MERENT_API", "MERENT_API\MERENT_API.csproj", "{209A6F41-7A9D-49FB-A774-249669DED204}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MERENT_API", "MERENT_API\MERENT_API.csproj", "{209A6F41-7A9D-49FB-A774-249669DED204}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
