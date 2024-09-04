@@ -8,15 +8,28 @@ namespace Domain.Entites
 {
     public class User : BaseEntity
     {
-        public string? name { get; set; }
-        public string? email { get; set; }
-        public string? password { get; set; }
-        public string? phoneNumber { get; set; }
-        public int? storeID { get; set; }
-        public int? roleID { get; set; }
-        public string? gender { get; set; }
+        public string? Name { get; set; }
+        public string? Email { get; set; }
+        public string? Password { get; set; }
+        public string? PhoneNumber { get; set; }
+        public int? StoreID { get; set; }
+        public int? RoleID { get; set; }
+        public string? Gender { get; set; }
         public Int64? Wallet { get; set; }
         public string? ConfirmationToken { get; set; }
         public bool IsConfirmed { get; set; }
+        public int OrderID { get; set; }
+        // R
+
+        public virtual Role Role {  get; set; }   
+        public virtual ICollection<ProductOrder> ProductOrders { get; set; }
+        public virtual Wallets Wallets { get; set; }
+        public virtual ICollection<ServiceOrder> ServiceOrders { get; set; }
+        public virtual Store Store { get; set; }
+
+
+
+
+
     }
 }

@@ -10,5 +10,8 @@ namespace Domain.Entites
     {
         public  string? Name { get; set; }
 
+        //R
+        public virtual ICollection<User> Users { get; set; }
+
     }
 }

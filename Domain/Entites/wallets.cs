@@ -10,5 +10,9 @@ namespace Domain.Entites
     {
         public Int64? cash {  get; set; }
         public int? userID { get; set; }
+
+        //R
+        public virtual User User { get; set; }  
+
     }
 }

@@ -8,8 +8,10 @@ namespace Domain.Entites
 {
     public class Combo: BaseEntity
     {
-        public string? name {  get; set; }
-        public string? description { get; set; }
+        public string? Name {  get; set; }
+        public string? Description { get; set; }
+        //R
+        public virtual ICollection<ComboOfProduct> Products { get; set; }   
 
     }
 }

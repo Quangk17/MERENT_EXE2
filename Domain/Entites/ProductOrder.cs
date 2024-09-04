@@ -8,12 +8,17 @@ namespace Domain.Entites
 {
     public class ProductOrder : BaseEntity
     {
-        public string? name { get; set; }
-        public DateTime? orderDate { get; set; }
-        public Int64? totalAmount { get; set; }
-        public Int64? totalPrice { get; set; }
-        public int? userID { get; set; }
-        public int? orderDetailID { get; set; }
+        public string? Name { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public Int64? TotalAmount { get; set; }
+        public Int64? TotalPrice { get; set; }
+        public int? UserID { get; set; }
+        public int? OrderDetailID { get; set; }
+
+
+        //R
+        public virtual ICollection<ProductOrderDetails> ProductOrderDetails { get; set; }
+        public virtual User User { get; set; }
 
         }
     }

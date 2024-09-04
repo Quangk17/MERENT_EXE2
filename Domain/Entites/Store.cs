@@ -9,9 +9,15 @@ namespace Domain.Entites
     public class Store: BaseEntity
     {
         public string? Name { get; set; }
-        public string? address { get; set; }
-        public DateTime? startTime { get; set; }
-        public DateTime? endTime { get; set; }
+        public string? Address { get; set; }
+        public DateTime? StartTime { get; set; }
+        public DateTime? EndTime { get; set; }
+
+        //R
+
+        public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<ServiceOfStore> ServiceOfStores { get; set; }
+        public virtual ICollection<ProductOfStore> ProductOfStores { get; set; }
 
     }
 }

@@ -8,8 +8,14 @@ namespace Domain.Entites
 {
     public class Service: BaseEntity
     {
-        public string? name {  get; set; }
-        public string? description { get; set; }
-        public Int64? price { get; set; }
+        public string? Name {  get; set; }
+        public string? Description { get; set; }
+        public Int64? Price { get; set; }
+
+        //R
+
+        public virtual ICollection<ServiceOrderDetail> OrderDetails { get; set; }   
+        public virtual ICollection<ServiceOfStore> StoreDetails { get; set; }   
+
     }
 }
