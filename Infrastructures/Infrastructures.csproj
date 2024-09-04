@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="FluentAPIs\" />
     <Folder Include="Mappers\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
