@@ -11,7 +11,7 @@ namespace Domain.Entites
         public string? Name {  get; set; }
         public string? Description { get; set; }
         //R
-        public virtual ICollection<ComboOfProduct> Products { get; set; }   
+        public virtual ICollection<ComboOfProduct>? Products { get; set; }   
 
     }
 }

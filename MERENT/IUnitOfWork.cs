@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructures.FluentAPIs
+namespace Application
 {
-    internal class UserConfiguration
+    public interface IUnitOfWork
     {
+        public Task<int> SaveChangeAsync();
     }
 }

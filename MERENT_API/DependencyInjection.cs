@@ -1,8 +1,8 @@
 ﻿using MERENT_API.Middlewares;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using System.Diagnostics;
+using Application;
 using FluentValidation.AspNetCore;
+using Infrastructures;
+using System.Diagnostics;
 
 namespace MERENT_API
 {
@@ -26,7 +26,7 @@ namespace MERENT_API
 
             // controller API  service
             
-            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            //services.AddScoped<IAuthenticationService, AuthenticationService>();
             
 
 

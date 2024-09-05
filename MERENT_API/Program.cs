@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
-
+using Application.Repositories;
 using Application.Services;
 using MERENT_API.Service;
 using MERENT_API;

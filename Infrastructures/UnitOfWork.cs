@@ -1,21 +1,24 @@
-﻿using Application;
-using Application.Repositories;
+﻿
+using Arch.EntityFrameworkCore.UnitOfWork;
+using Application;
+
 
 namespace Infrastructures
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : Application.IUnitOfWork
     {
-        private readonly AppDbContext _dbContext;
-        
+        private readonly AppDBContext _dbContext;
 
-        public UnitOfWork(AppDbContext dbContext)
+
+        //
+
+        public UnitOfWork(AppDBContext dbContext)
         {
             _dbContext = dbContext;
             
         }
 
-        
-
+        //
 
         public async Task<int> SaveChangeAsync()
         {

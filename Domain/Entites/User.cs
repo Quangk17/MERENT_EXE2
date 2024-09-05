@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites
 {
-    public class User : BaseEntity
+    public class User :IdentityUser<int>
     {
         public string? Name { get; set; }
         public string? Email { get; set; }
@@ -21,11 +22,11 @@ namespace Domain.Entites
         public int OrderID { get; set; }
         // R
 
-        public virtual Role Role {  get; set; }   
-        public virtual ICollection<ProductOrder> ProductOrders { get; set; }
-        public virtual Wallets Wallets { get; set; }
-        public virtual ICollection<ServiceOrder> ServiceOrders { get; set; }
-        public virtual Store Store { get; set; }
+        public virtual Role? Role {  get; set; }   
+        public virtual ICollection<ProductOrder>?ProductOrders { get; set; }
+        public virtual Wallets? Wallets { get; set; }
+        public virtual ICollection<ServiceOrder>? ServiceOrders { get; set; }
+        public virtual Store? Store { get; set; }
 
 
 
