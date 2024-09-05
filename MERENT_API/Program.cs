@@ -10,6 +10,8 @@ using Application.Services;
 using MERENT_API.Service;
 using MERENT_API;
 using MERENT_API.Middlewares;
+using Application.Interfaces;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +29,7 @@ builder.Services.AddCors(options =>
 
 var configuration = builder.Configuration.Get<AppConfiguration>() ?? new AppConfiguration();
 // CONNECT TO DATABASE
-builder.Services.AddDbContext<AppDBContext>(options =>
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });

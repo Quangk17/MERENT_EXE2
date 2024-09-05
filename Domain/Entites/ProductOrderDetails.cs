@@ -13,8 +13,8 @@ namespace Domain.Entites
         public Int64? UnitPrice { get; set; }
 
         //R
-        public virtual ProductOrder ProductOrder { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual ProductOrder? ProductOrder { get; set; }
+        public virtual Product? Product { get; set; }
 
     }
 }

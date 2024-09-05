@@ -15,8 +15,8 @@ namespace Domain.Entites
 
         //R
 
-        public virtual ServiceOrder ServiceOrder { get; set; }
-        public virtual Service Service { get; set; }
+        public virtual ServiceOrder? ServiceOrder { get; set; }
+        public virtual Service? Service { get; set; }
 
     }
 }

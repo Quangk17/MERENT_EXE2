@@ -10,12 +10,12 @@ namespace Domain.Entites
     {
         public int ProductID { get; set; }
         public int ComboID { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public Int64 Quantity { get; set; }
 
         //R
-        public virtual Product Product { get; set; }
-        public virtual Combo Combo { get; set; }
+        public virtual Product? Product { get; set; }
+        public virtual Combo? Combo { get; set; }
 
     }
 }

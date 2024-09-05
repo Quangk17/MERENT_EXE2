@@ -8,13 +8,13 @@ namespace Domain.Entites
 {
     public class ServiceOrder: BaseEntity
     {
-        public string Name {  get; set; }
-        public string ServiceDate { get; set; }
+        public string? Name {  get; set; }
+        public string? ServiceDate { get; set; }
         public Int64 TotalAmount { get; set; }
          
         //R
-        public virtual User User { get; set; }  
-        public virtual ICollection<ServiceOrderDetail>ServiceOrderDetails { get; set; }
+        public virtual User? User { get; set; }  
+        public virtual ICollection<ServiceOrderDetail>?ServiceOrderDetails { get; set; }
 
 
 

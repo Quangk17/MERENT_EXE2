@@ -10,7 +10,7 @@ namespace Domain.Entites
     {
        public int StoreID { get; set; }
        public int ProductID { get; set; }
-       public string Note { get; set; }
+       public string? Note { get; set; }
        public Int64 Quantity {  get; set; }
         
 

@@ -7,12 +7,12 @@ namespace Infrastructures
 {
     public class UnitOfWork : Application.IUnitOfWork
     {
-        private readonly AppDBContext _dbContext;
+        private readonly AppDbContext _dbContext;
 
 
         //
 
-        public UnitOfWork(AppDBContext dbContext)
+        public UnitOfWork(AppDbContext dbContext)
         {
             _dbContext = dbContext;
             

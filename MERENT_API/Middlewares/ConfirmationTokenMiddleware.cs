@@ -11,7 +11,7 @@ namespace MERENT_API.Middlewares
             _next = next;
         }
 
-        public async Task InvokeAsync(HttpContext context)
+     /*   public async Task InvokeAsync(HttpContext context)
         {
             // Tạo một phạm vi dịch vụ tạm thời
             using (var scope = context.RequestServices.CreateScope())
@@ -39,6 +39,6 @@ namespace MERENT_API.Middlewares
             }
 
             await _next(context);
-        }
+        }*/
     }
 }

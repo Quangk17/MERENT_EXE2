@@ -15,9 +15,9 @@ namespace Domain.Entites
         
         //R
 
-        public virtual ICollection<ProductOfStore> Store { get; set; }
-        public virtual ICollection<ComboOfProduct> Combo { get; set; }  
-        public virtual ICollection<ProductOrderDetails> OrderDetails { get; set; }  
+        public virtual ICollection<ProductOfStore>? Store { get; set; }
+        public virtual ICollection<ComboOfProduct>? Combo { get; set; }  
+        public virtual ICollection<ProductOrderDetails>? OrderDetails { get; set; }  
 
     }
 }

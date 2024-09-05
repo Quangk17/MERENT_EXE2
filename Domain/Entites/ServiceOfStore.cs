@@ -10,11 +10,11 @@ namespace Domain.Entites
     {
         public int StoreID { get; set; }
         public int ServiceID { get; set; }
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         //R
 
-        public virtual Store Store { get; set; }
-        public virtual Service Service { get; set; }
+        public virtual Store? Store { get; set; }
+        public virtual Service? Service { get; set; }
     }
 }
