@@ -13,7 +13,8 @@ namespace Domain.Entites
        public string? Note { get; set; }
        public Int64 Quantity {  get; set; }
         
-
+        public virtual Store? Store { get; set; }
+        public virtual Product? Product { get; set; }
 
     }
 }
