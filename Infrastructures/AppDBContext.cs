@@ -37,14 +37,90 @@ namespace Infrastructures
             }
 
             // Configure entity relationships
-
+            // Product Of Store
             modelBuilder.Entity<ProductOfStore>()
             .HasKey(ps => new { ps.StoreID, ps.ProductID});
 
             modelBuilder.Entity<ProductOfStore>()
             .HasOne(s => s.Store)
             .WithMany(ps => ps.ProductOfStores)
+            .HasForeignKey(s => s.StoreID)
             .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProductOfStore>()
+            .HasOne(p=>p.Product)
+            .WithMany(ps => ps.ProductOfStores)
+            .HasForeignKey(s => s.ProductID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Combo Of Product
+            modelBuilder.Entity<ComboOfProduct>()
+            .HasKey(cp => new {cp.ComboID, cp.ProductID});
+
+            modelBuilder.Entity<ComboOfProduct>()
+            .HasOne(p => p.Combo)
+            .WithMany(cp => cp.ComboOfProducts)
+            .HasForeignKey(c => c.ComboID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ComboOfProduct>()
+            .HasOne(p => p.Product)
+            .WithMany(cp => cp.ComboOfProducts)
+            .HasForeignKey(p => p.ProductID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Service Of Store
+
+            modelBuilder.Entity<ServiceOfStore>()
+            .HasKey(ss => new { ss.ServiceID, ss.StoreID });
+
+            modelBuilder.Entity<ServiceOfStore>()
+            .HasOne(p => p.Service)
+            .WithMany(ss => ss.ServiceOfStores)
+            .HasForeignKey(ss => ss.ServiceID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ServiceOfStore>()
+            .HasOne(p => p.Store)
+            .WithMany(ss => ss.ServiceOfStores)
+            .HasForeignKey(s => s.StoreID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure ServiceOrder
+            modelBuilder.Entity<ServiceOrder>()
+                .HasOne(so => so.User)
+                .WithMany(u => u.ServiceOrders)
+                .HasForeignKey(so => so.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure ServiceOrderDetail
+
+            modelBuilder.Entity<ServiceOrderDetail>()
+            .HasKey(sod => new {sod.ServiceID, sod.ServiceOrderID});
+
+            modelBuilder.Entity<ServiceOrderDetail>()
+                .HasOne(sod => sod.ServiceOrder)
+                .WithMany(so => so.ServiceOrderDetails)
+                .HasForeignKey(sod => sod.ServiceOrderID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ServiceOrderDetail>()
+                .HasOne(sod => sod.Service)
+                .WithMany(s => s.ServiceOrderDetails)
+                .HasForeignKey(sod => sod.ServiceID)
+                .OnDelete(DeleteBehavior.Restrict);
+            // Product Order
+
+            modelBuilder.Entity<ProductOrder>()
+            .HasKey(po => po.Id);
+
+            modelBuilder.Entity<ProductOrder>()
+            .HasOne(u => u.User)
+            .WithMany(po => po.ProductOrders)
+            .HasForeignKey(po => po.UserID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+
 
         }
     }

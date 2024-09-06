@@ -9,6 +9,7 @@ namespace Domain.Entites
     public class ProductOrderDetails: BaseEntity
     {
         public int? ProductID {  get; set; }
+        public int? OrderId { get; set; }
         public Int64? Quantity { get; set; }
         public Int64? UnitPrice { get; set; }
 
