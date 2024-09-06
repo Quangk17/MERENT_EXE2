@@ -1,4 +1,5 @@
 ﻿using Domain.Entites;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -120,8 +121,35 @@ namespace Infrastructures
             .HasForeignKey(po => po.UserID)
             .OnDelete(DeleteBehavior.Restrict);
 
+            // Product Order Details
 
+            modelBuilder.Entity<ProductOrderDetails>()
+            .HasKey(pod => new { pod.ProductID, pod.OrderId });
 
+            modelBuilder.Entity<ProductOrderDetails>()
+            .HasOne(po => po.ProductOrder)
+            .WithMany(pod => pod.ProductOrderDetails)
+            .HasForeignKey(pod => pod.OrderId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<ProductOrderDetails>()
+            .HasOne(p => p.Product)
+            .WithMany(pod => pod.ProductOrderDetails)
+            .HasForeignKey(pod => pod.ProductID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            // Configure User
+
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
+            .WithMany(r => r.Users)
+            .HasForeignKey(r => r.RoleID)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Wallets>()
+             .HasOne(w => w.User)
+             .WithOne(u => u.Wallets)
+             .HasForeignKey<User>(u => u.WalletId);
         }
     }
 

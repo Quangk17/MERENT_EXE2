@@ -16,7 +16,7 @@ namespace Domain.Entites
         public int? StoreID { get; set; }
         public int? RoleID { get; set; }
         public string? Gender { get; set; }
-        public Int64? Wallet { get; set; }
+        public int? WalletId { get; set; }
         public string? ConfirmationToken { get; set; }
         public bool IsConfirmed { get; set; }
         public int OrderID { get; set; }

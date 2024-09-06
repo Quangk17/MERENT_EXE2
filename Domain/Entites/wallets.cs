@@ -8,9 +8,7 @@ namespace Domain.Entites
 {
     public class Wallets: BaseEntity
     {
-        public Int64? cash {  get; set; }
-        public int? userID { get; set; }
-
+        public Int64? Cash {  get; set; }
         //R
         public virtual User? User { get; set; }  
 
