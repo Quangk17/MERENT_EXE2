@@ -1,6 +1,7 @@
 ﻿
 using Arch.EntityFrameworkCore.UnitOfWork;
 using Application;
+using Application.Repositories;
 
 
 namespace Infrastructures
@@ -8,7 +9,7 @@ namespace Infrastructures
     public class UnitOfWork : Application.IUnitOfWork
     {
         private readonly AppDbContext _dbContext;
-
+        
 
         //
 
@@ -18,6 +19,7 @@ namespace Infrastructures
             
         }
 
+       
         //
 
         public async Task<int> SaveChangeAsync()

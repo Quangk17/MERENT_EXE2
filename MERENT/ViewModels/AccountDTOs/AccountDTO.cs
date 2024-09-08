@@ -1,15 +1,12 @@
-﻿
-
-using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entites
+namespace Application.ViewModels.AccountDTOs
 {
-    public class User :BaseEntity
+    public class AccountDTO
     {
         public string? Name { get; set; }
         public string? Email { get; set; }
@@ -22,17 +19,5 @@ namespace Domain.Entites
         public string? ConfirmationToken { get; set; }
         public bool IsConfirmed { get; set; }
         public int OrderID { get; set; }
-        // R
-
-        public virtual Role? Role {  get; set; }   
-        public virtual ICollection<ProductOrder>?ProductOrders { get; set; }
-        public virtual Wallets? Wallets { get; set; }
-        public virtual ICollection<ServiceOrder>? ServiceOrders { get; set; }
-        public virtual Store? Store { get; set; }
-
-
-
-
-
     }
 }

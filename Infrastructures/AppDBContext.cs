@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructures
 {
-    public class AppDbContext : IdentityDbContext<User, Role, int>
+    public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions options) : base(options)
+        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
+
         }
         public DbSet<Wallets> Wallets { get; set; }
         public DbSet<User> Users { get; set; }

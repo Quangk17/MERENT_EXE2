@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using Application.Commons;
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Infrastructures.Mappers
     {
         public MapperConfigurationsProfile()
         {
+            CreateMap(typeof(Pagination<>), typeof(Pagination<>));
         }
     }
 }

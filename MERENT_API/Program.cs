@@ -11,6 +11,8 @@ using MERENT_API.Service;
 using MERENT_API;
 using MERENT_API.Middlewares;
 using Application.Interfaces;
+using Microsoft.AspNetCore.Identity;
+using Domain.Entites;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+
 //add infrastructure
 builder.Services.AddSingleton<ICurrentTime, CurrentTime>();
 builder.Services.AddSingleton<IClaimsService, ClaimServices>();
