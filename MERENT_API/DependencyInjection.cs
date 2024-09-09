@@ -3,6 +3,8 @@ using Application;
 using FluentValidation.AspNetCore;
 using Infrastructures;
 using System.Diagnostics;
+using Application.Interfaces;
+using Application.Services;
 
 namespace MERENT_API
 {
@@ -26,7 +28,7 @@ namespace MERENT_API
 
             // controller API  service
             
-            //services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
             
 
 

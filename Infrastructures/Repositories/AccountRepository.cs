@@ -6,23 +6,21 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructures.Repositories
 {
-    public class AccountRepository //: IAccountRepository
+    public class AccountRepository : GenericRepository<User>, IAccountRepository
     {
         private readonly AppDbContext _dbContext;
-        private readonly ICurrentTime _timeService;
-        private readonly IClaimsService _claimsService;
-        private readonly IConfiguration _configuration;
-        public AccountRepository(AppDbContext dbContext, ICurrentTime timeService, IClaimsService claimsService,
-            IConfiguration configuration)
+        public AccountRepository(
+            AppDbContext context,
+            ICurrentTime timeService,
+            IClaimsService claimsService
+        )
+            : base(context, timeService, claimsService)
         {
-            _dbContext = dbContext;
-            _timeService = timeService;
-            _claimsService = claimsService;
-            _configuration = configuration;
-            _claimsService = claimsService;
+            _dbContext = context;
         }
 
-        
+
+
 
         public Task<User> CheckEmailNameExisted(string email)
         => _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);

@@ -1,7 +1,9 @@
 ﻿using Application;
 using Application.Interfaces;
+using Application.Repositories;
 using Application.Services;
 using Infrastructures.Mappers;
+using Infrastructures.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,13 +18,14 @@ namespace Infrastructures
             services.AddDbContext<AppDbContext>(option => option.UseSqlServer(databaseConnection));
 
             //add repositories injection
-            
+            services.AddScoped<IAccountRepository, AccountRepository>();
 
 
 
 
 
-            
+
+
 
 
 
