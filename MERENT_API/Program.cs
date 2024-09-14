@@ -13,6 +13,7 @@ using MERENT_API.Middlewares;
 using Application.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Domain.Entites;
+using Microsoft.Extensions.Logging;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -97,6 +98,7 @@ builder.Services.AddSwaggerGen(setup =>
 
 
 var app = builder.Build();
+
 
 app.UseCors("AllowLocalhost3000");
 app.UseMiddleware<GlobalExceptionMiddleware>();
