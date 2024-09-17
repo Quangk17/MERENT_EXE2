@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
         builder.AllowAnyHeader()
                .AllowCredentials()
                .AllowAnyMethod()
-               .WithOrigins("http://localhost:3000");
+               .WithOrigins("http://localhost:3000", "https://localhost:7253/swagger/index.html", "http://127.0.0.1:5173/");
     });
 });
 
