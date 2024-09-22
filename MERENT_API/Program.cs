@@ -100,7 +100,7 @@ builder.Services.AddSwaggerGen(setup =>
 var app = builder.Build();
 
 
-app.UseCors("AllowLocalhost3000");
+
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<PerformanceMiddleware>();
 app.UseMiddleware<ConfirmationTokenMiddleware>();
@@ -115,7 +115,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
+app.UseCors("AllowLocalhost3000");
 app.MapControllers();
 
 app.Run();
