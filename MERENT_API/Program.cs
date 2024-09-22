@@ -1,34 +1,19 @@
-using Infrastructures;
 using Application.Commons;
+using Application.Interfaces;
+using Application.Services;
+using Infrastructures;
+using MERENT_API;
+using MERENT_API.Middlewares;
+using MERENT_API.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
-using Microsoft.EntityFrameworkCore;
-using Application.Repositories;
-using Application.Services;
-using MERENT_API.Service;
-using MERENT_API;
-using MERENT_API.Middlewares;
-using Application.Interfaces;
-using Microsoft.AspNetCore.Identity;
-using Domain.Entites;
-using Microsoft.Extensions.Logging;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// cau hinh CORS
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost3000", builder =>
-    {
-        builder.AllowAnyHeader()
-               .AllowCredentials()
-               .AllowAnyMethod()
-               .WithOrigins("http://localhost:3000", "https://localhost:7253/swagger/index.html", "http://127.0.0.1:5173/");
-    });
-});
 
 var configuration = builder.Configuration.Get<AppConfiguration>() ?? new AppConfiguration();
 // CONNECT TO DATABASE
@@ -96,11 +81,18 @@ builder.Services.AddSwaggerGen(setup =>
     });
 });
 
+//CORS - Set Policy
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("CorsPolicyDevelopement", policy =>
+    {
+        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    });
+});
 
 var app = builder.Build();
 
 
-app.UseCors("AllowLocalhost3000");
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<PerformanceMiddleware>();
 app.UseMiddleware<ConfirmationTokenMiddleware>();
@@ -115,6 +107,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("CorsPolicyDevelopement");
 
 app.MapControllers();
 
