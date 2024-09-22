@@ -92,6 +92,10 @@ builder.Services.AddCors(opt =>
 
 var app = builder.Build();
 
+var scope = app.Services.CreateScope();
+var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+app.ApplyMigrations(logger);
+
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<PerformanceMiddleware>();

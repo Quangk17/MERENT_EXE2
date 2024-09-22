@@ -6,7 +6,7 @@ services:
       dockerfile: MERENT_API/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - "ConnectionStrings__DefaultConnection=Server=merent-database;Database=merent-database;User Id=sa;Password=SieuCapDepTrai@12345;TrustServerCertificate=true"
+      - "ConnectionStrings__DefaultConnection=Server=merent-database;Database=merent-database;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true"
     ports:
       - "8090:8080"
     depends_on:
@@ -18,7 +18,7 @@ services:
     restart: always
     environment:
       ACCEPT_EULA: "Y"
-      MSSQL_SA_PASSWORD: "SieuCapDepTrai@12345"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
     ports:
       - "1490:1433"
     volumes:
