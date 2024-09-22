@@ -1,0 +1,25 @@
+services:
+  merent_api:
+    image: lequocuy/merentapi
+    build:
+      context: .
+      dockerfile: MERENT_API/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ConnectionStrings__DefaultConnection=Server=merent-database;Database=merent-database;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=true"
+    ports:
+      - "8090:8080"
+    depends_on:
+      - merent-database
+
+  merent-database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: merent-database
+    restart: always
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_SA_PASSWORD: "YourStrong!Passw0rd"
+    ports:
+      - "1490:1433"
+    volumes:
+      - ./.containers/merent-db:/var/opt/mssql/data
