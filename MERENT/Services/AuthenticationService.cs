@@ -104,7 +104,7 @@ namespace Application.Services
 
                 user.RoleID = 1;
                 await _unitOfWork.AccountRepository.AddAsync(user);
-                var confirmationLink = $"https://localhost:7253/swagger/confirm?token={user.ConfirmationToken}";
+                var confirmationLink = $"https://merent.uydev.id.vn/confirm?token={user.ConfirmationToken}";
 
                 // Gửi email xác nhận
                 var emailSent = await SendEmail.SendConfirmationEmail(user.Email, confirmationLink);
