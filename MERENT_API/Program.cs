@@ -101,6 +101,16 @@ app.UseMiddleware<GlobalExceptionMiddleware>();
 app.UseMiddleware<PerformanceMiddleware>();
 app.UseMiddleware<ConfirmationTokenMiddleware>();
 
+var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+try
+{
+    await DBInitializer.Initialize(context);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "An problem occurred during migration!");
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
