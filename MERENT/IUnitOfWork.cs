@@ -10,6 +10,13 @@ namespace Application
     public interface IUnitOfWork
     {
         public IAccountRepository AccountRepository { get; }
+        public IStoreRepository StoreRepository { get; }
+        public IComboRepository ComboRepository { get; }
+        public IProductRepository ProductRepository { get; }
+        public IRoleRepository RoleRepository { get; }
+        public IServiceRepository ServiceRepository { get; }    
+
+
 
 
         public Task<int> SaveChangeAsync();

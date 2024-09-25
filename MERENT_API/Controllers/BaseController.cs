@@ -3,7 +3,7 @@
 namespace MERENT_API.Controllers
 {
     //cac controller khac sẽ thừa kế basecontroller
-    [Route("api/[controller]/[action]")]
+    [Route("api/[controller]/")]
     [ApiController]
     public class BaseController : ControllerBase
     {

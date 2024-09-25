@@ -3,7 +3,9 @@ using Application.ViewModels.AccountDTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MERENT_API.Controllers
+
 {
+    
     public class AuthenticationController : BaseController
     {
         private readonly IAuthenticationService _authenticationService;
@@ -13,7 +15,7 @@ namespace MERENT_API.Controllers
             _authenticationService = authenticationService;
         }
 
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync(RegisterAccountDTO registerObject)
         {
             var result = await _authenticationService.RegisterAsync(registerObject);
@@ -28,7 +30,7 @@ namespace MERENT_API.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("login")]
         public async Task<IActionResult> LoginAsync(AuthenAccountDTO loginObject)
         {
             var result = await _authenticationService.LoginAsync(loginObject);
