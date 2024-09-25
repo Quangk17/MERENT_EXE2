@@ -1,59 +1,22 @@
 ﻿using Application.Commons;
+using Application.Interfaces;
 using Application.Repositories;
 using Domain.Entites;
 using System.Linq.Expressions;
 
 namespace Infrastructures.Repositories
 {
-    public class ComboRepository : IComboRepository
+    public class ComboRepository :GenericRepository<Combo>, IComboRepository
     {
-        public ComboRepository()
+        private readonly AppDbContext _dbContext;
+        public ComboRepository(
+            AppDbContext context,
+            ICurrentTime timeService,
+            IClaimsService claimsService
+        )
+            : base(context, timeService, claimsService)
         {
-            
-        }
-        public Task AddAsync(Combo entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task AddRangeAsync(List<Combo> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<Combo>> GetAllAsync(params Expression<Func<Combo, object>>[] includes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Combo?> GetByIdAsync(int id, params Expression<Func<Combo, object>>[] includes)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SoftRemove(Combo entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SoftRemoveRange(List<Combo> entities)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Pagination<Combo>> ToPagination(int pageNumber = 0, int pageSize = 10)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(Combo entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UpdateRange(List<Combo> entities)
-        {
-            throw new NotImplementedException();
+            _dbContext = context;
         }
     }
 }

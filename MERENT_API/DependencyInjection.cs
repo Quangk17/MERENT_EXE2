@@ -42,6 +42,7 @@ namespace MERENT_API
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IComboService, ComboService>();
+            services.AddScoped<IUserService, UserService>();
 
 
 
