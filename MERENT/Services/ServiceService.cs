@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ServiceRespones;
 using Application.ViewModels.ServiceDTOs;
+using Application.ViewModels.StoreDTOs;
 using AutoMapper;
 using Domain.Entites;
 using System;
@@ -96,40 +97,40 @@ namespace Application.Services
 
         public async Task<ServiceResponse<List<ServiceDTO>>> GetServicesAsync()
         {
-            var response = new ServiceResponse<List<ServiceDTO>>();
-            List<ServiceDTO> CourtDTOs = new List<ServiceDTO>();
+            var reponse = new ServiceResponse<List<ServiceDTO>>();
+            List<ServiceDTO> StoreDTOs = new List<ServiceDTO>();
             try
             {
-                var courts = await _unitOfWork.ServiceRepository.GetAllAsync();
-
-                foreach (var court in courts)
+                var a = await _unitOfWork.ServiceRepository.GetAllAsync();
+                foreach (var ac in a)
                 {
-                    var courtDto = _mapper.Map<ServiceDTO>(court);
-                    courtDto.Name = court.Name;
-                    CourtDTOs.Add(courtDto);
+                    var aaftermapper = _mapper.Map<ServiceDTO>(ac);
+                    aaftermapper.Name = ac.Name;
+                    StoreDTOs.Add(aaftermapper);
                 }
-                if (CourtDTOs.Count > 0)
+                if (StoreDTOs.Count > 0)
                 {
-                    response.Data = CourtDTOs;
-                    response.Success = true;
-                    response.Message = $"Have {CourtDTOs.Count} roles.";
-                    response.Error = "No error";
+                    reponse.Data = StoreDTOs;
+                    reponse.Success = true;
+                    reponse.Message = $"Have {StoreDTOs.Count} stores.";
+                    reponse.Error = "Not error";
+                    return reponse;
                 }
                 else
                 {
-                    response.Success = false;
-                    response.Message = "No roles found.";
-                    response.Error = "No roles available";
+                    reponse.Success = false;
+                    reponse.Message = $"Have {StoreDTOs.Count} stores.";
+                    reponse.Error = "Not have a store";
+                    return reponse;
                 }
             }
             catch (Exception ex)
             {
-                response.Success = false;
-                response.Error = "Exception";
-                response.ErrorMessages = new List<string> { ex.Message };
+                reponse.Success = false;
+                reponse.Error = "Exception";
+                reponse.ErrorMessages = new List<string> { ex.Message };
+                return reponse;
             }
-            return response;
-
         }
 
         public Task<ServiceResponse<List<ServiceDTO>>> SearchServiceByNameAsync(string name)
