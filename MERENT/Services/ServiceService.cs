@@ -131,6 +131,7 @@ namespace Application.Services
                 reponse.ErrorMessages = new List<string> { ex.Message };
                 return reponse;
             }
+            return reponse;
         }
 
         public Task<ServiceResponse<List<ServiceDTO>>> SearchServiceByNameAsync(string name)
