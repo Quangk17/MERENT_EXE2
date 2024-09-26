@@ -42,7 +42,7 @@ namespace Infrastructures
 
         public IRoleRepository RoleRepository => _roleRepository;
 
-        public IServiceRepository ServiceRepository => ServiceRepository;
+        public IServiceRepository ServiceRepository => _serviceRepository;
 
         public async Task<int> SaveChangeAsync()
         {
