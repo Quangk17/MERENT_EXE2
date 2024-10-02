@@ -12,11 +12,12 @@ namespace Domain.Entites
         public string? Description { get; set; }
         public string? ProductType { get; set; }
         public Int64? Price { get; set; }
-        public string? URLCertain { get; set; }
+        public string? URLCenter { get; set; }
         public string? URLLeft { get; set; }
         public string? URLRight { get; set; }
+        public string? URLSide { get; set; }
 
-        
+
         //R
 
         public virtual ICollection<ProductOfStore>? ProductOfStores { get; set; }
