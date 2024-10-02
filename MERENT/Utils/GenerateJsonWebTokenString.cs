@@ -20,7 +20,7 @@ namespace Application.Utils
             var claims = new[]
             {
                 new Claim("Id", user.Id.ToString()),
- //               new Claim("Email" ,user.email),
+                new Claim("Email" ,user.Email),
                 new Claim(ClaimTypes.Role ,rolename),
             };
             var token = new JwtSecurityToken(

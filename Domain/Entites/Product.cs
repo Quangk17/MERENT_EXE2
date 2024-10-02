@@ -12,6 +12,10 @@ namespace Domain.Entites
         public string? Description { get; set; }
         public string? ProductType { get; set; }
         public Int64? Price { get; set; }
+        public string? URLCertain { get; set; }
+        public string? URLLeft { get; set; }
+        public string? URLRight { get; set; }
+
         
         //R
 
