@@ -14,7 +14,7 @@ namespace Application.Utils
         {
             var userName = "MERENT";
             var emailFrom = "quangbhse172365@fpt.edu.vn";
-            var password = "npno lliw kmgh vxmg";
+            var password = "tdfc jkru crma mysp";
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress(userName, emailFrom));
