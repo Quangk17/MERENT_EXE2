@@ -42,6 +42,7 @@ namespace Infrastructures.Mappers
             CreateMap<Role, RoleUpdateDTO>().ReverseMap();
             CreateMap<Service, ServiceUpdateDTO>().ReverseMap();
             CreateMap<Store, StoreUpdateDTO>().ReverseMap();
+            CreateMap<Product, UploadImageDTO>().ReverseMap();
 
             //Pagination
             CreateMap(typeof(Pagination<>), typeof(Pagination<>));
