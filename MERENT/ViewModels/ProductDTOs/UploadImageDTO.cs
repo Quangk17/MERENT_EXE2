@@ -8,7 +8,6 @@ namespace Application.ViewModels.ProductDTOs
 {
     public class UploadImageDTO
     {
-        public int Id { get; set; }
         public string? URLCenter { get; set; }
         public string? URLLeft { get; set; }
         public string? URLRight { get; set; }
