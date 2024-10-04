@@ -13,5 +13,6 @@ namespace Application.Interfaces
         Task<ServiceResponse<ProductDTO>> DeleteProductAsync(int id);
         Task<ServiceResponse<ProductDTO>> UpdateProductAsync(int id, ProductUpdateDTO updateDto);
         Task<ServiceResponse<ProductDTO>> CreateProductAsync(ProductCreateDTO product);
+        Task<ServiceResponse<ProductDTO>> UploadImageProductAsync(int id, UploadImageDTO uploadImageDTO);
     }
 }

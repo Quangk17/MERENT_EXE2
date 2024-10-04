@@ -79,6 +79,19 @@ namespace MERENT_API.Controllers
             }
             return Ok(c);
         }
+
+        [HttpPut("ImgProduct/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> UploadImageProduct(int id, [FromBody] UploadImageDTO uploadImage)
+        {
+            var c = await _productService.UploadImageProductAsync(id, uploadImage);
+            if (!c.Success)
+            {
+                return BadRequest(c);
+            }
+            return Ok(c);
+        }
     }
 
 }

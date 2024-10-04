@@ -184,5 +184,52 @@ namespace Application.Services
 
             return reponse;
         }
+
+        public async Task<ServiceResponse<ProductDTO>> UploadImageProductAsync(int id, UploadImageDTO uploadImageDTO)
+        {
+            var reponse = new ServiceResponse<ProductDTO>();
+
+            try
+            {
+                var enityById = await _unitOfWork.ProductRepository.GetByIdAsync(id);
+
+                if (enityById != null)
+                {
+                    var newb = _mapper.Map(uploadImageDTO, enityById);
+                    var bAfter = _mapper.Map<Product>(newb);
+                    _unitOfWork.ProductRepository.Update(bAfter);
+                    if (await _unitOfWork.SaveChangeAsync() > 0)
+                    {
+                        reponse.Success = true;
+                        reponse.Data = _mapper.Map<ProductDTO>(bAfter);
+                        reponse.Message = $"Successfull for update Product.";
+                        return reponse;
+                    }
+                    else
+                    {
+                        reponse.Success = false;
+                        reponse.Error = "Save update failed";
+                        return reponse;
+                    }
+
+                }
+                else
+                {
+                    reponse.Success = false;
+                    reponse.Message = $"Have no Product.";
+                    reponse.Error = "Not have a Product";
+                    return reponse;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                reponse.Success = false;
+                reponse.ErrorMessages = new List<string> { ex.Message };
+                return reponse;
+            }
+
+            return reponse;
+        }
     }
 }
