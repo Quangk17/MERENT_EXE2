@@ -25,6 +25,8 @@ namespace Infrastructures.Mappers
             CreateMap<Role, RoleDTO>().ReverseMap();
             CreateMap<Service, ServiceDTO>().ReverseMap();
             CreateMap<Store, StoreDTO>().ReverseMap();
+            CreateMap<User, UserDetailsModel>().ReverseMap();
+            CreateMap<Role, RoleInfoModel>().ReverseMap();
 
             //create
             CreateMap<User, AccountAddDTO>().ReverseMap();
