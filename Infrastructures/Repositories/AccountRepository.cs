@@ -48,6 +48,7 @@ namespace Infrastructures.Repositories
             return null;
         }
 
+
         public async Task<RoleInfoModel> GetRole(User user)
         {
             // Giả sử bạn có một bảng `UserRoles` trong cơ sở dữ liệu lưu thông tin người dùng và vai trò của họ

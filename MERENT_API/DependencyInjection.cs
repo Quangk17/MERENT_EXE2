@@ -44,6 +44,7 @@ namespace MERENT_API
             services.AddScoped<IComboService, ComboService>();
             services.AddScoped<IUserService, UserService>();
 
+            services.AddHttpContextAccessor();
 
 
 
