@@ -12,7 +12,7 @@ namespace MERENT_API.Service
             var identity = httpContextAccessor.HttpContext?.User?.Identity as ClaimsIdentity;
             var extractedId = AuthenTools.GetCurrentUserId(identity);
 
-            GetCurrentUserId = string.IsNullOrEmpty(extractedId) ? 1 : Convert.ToInt32(extractedId);
+            GetCurrentUserId = string.IsNullOrEmpty(extractedId) ? 0 : Convert.ToInt32(extractedId);
         }
 
         public int GetCurrentUserId { get; }

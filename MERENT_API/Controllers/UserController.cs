@@ -1,6 +1,8 @@
 ﻿using Application.Interfaces;
 using Application.ViewModels.AccountDTOs;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
+using System.Security.Principal;
 
 namespace MERENT_API.Controllers
 {
@@ -33,13 +35,28 @@ namespace MERENT_API.Controllers
         [HttpGet("me")]
         public async Task<IActionResult> GetCurrentUserAsync()
         {
-            var result = await _userService.GetCurrentUserAsync();
-            if (result.Success || result.Data != null)
+            // Lấy claim NameIdentifier từ User
+            var result = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+            // Nếu không tìm thấy claim hoặc không thể chuyển đổi thành int, trả về lỗi
+            if (result == null || !int.TryParse(result, out int userId))
             {
-                return Ok(result);
+                return BadRequest("Cannot find user ID.");
             }
-            return Unauthorized(result);
+
+            // Lấy thông tin người dùng từ dịch vụ
+            var user = await _userService.GetAccountByIdAsync(userId);
+
+            // Kiểm tra nếu người dùng không tồn tại
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+
+            // Nếu mọi thứ hợp lệ, trả về người dùng
+            return Ok(user);
         }
+
 
         [HttpGet("name")]
         [ProducesResponseType(StatusCodes.Status200OK)]
