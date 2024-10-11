@@ -30,6 +30,17 @@ namespace MERENT_API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("me")]
+        public async Task<IActionResult> GetCurrentUserAsync()
+        {
+            var result = await _userService.GetCurrentUserAsync();
+            if (result.Success || result.Data != null)
+            {
+                return Ok(result);
+            }
+            return Unauthorized(result);
+        }
+
         [HttpGet("name")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

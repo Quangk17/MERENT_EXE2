@@ -25,6 +25,42 @@ namespace Application.Services
             _mapper = mapper;
         }
 
+        public async Task<ServiceResponse<UserDetailsModel>> GetCurrentUserAsync()
+        {
+            var response = new ServiceResponse<UserDetailsModel>();
+
+            try
+            {
+                var currentUser = await _unitOfWork.AccountRepository.GetCurrentUserAsync();
+
+                if (currentUser != null)
+                {
+                    var role = await _unitOfWork.AccountRepository.GetRole(currentUser);
+                    var data = _mapper.Map<UserDetailsModel>(currentUser);
+                    data.Role = role;
+
+                    response.Success = true;
+                    response.Data = data;
+                    response.Message = "Successfully retrieved current user.";
+                    return response;
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "User not found.";
+                    response.Error = "User is not found due to error or expiration token.";
+                    return response;
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+                return response;
+            }
+        }
+
+
         public async Task<ServiceResponse<AccountDTO>> AddAccountAsync(AccountAddDTO AccountAddDTO)
         {
             var reponse = new ServiceResponse<AccountDTO>();

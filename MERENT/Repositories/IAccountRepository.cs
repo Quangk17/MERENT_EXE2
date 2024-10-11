@@ -1,4 +1,5 @@
-﻿using Domain.Entites;
+﻿using Application.ViewModels.AccountDTOs;
+using Domain.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,7 @@ namespace Application.Repositories
         Task<IEnumerable<User>> SearchAccountByRoleNameAsync(string roleName);
         Task<IEnumerable<User>> GetSortedAccountAsync();
         Task<Role> GetRoleNameByRoleId(int RoleId);
+        Task<User> GetCurrentUserAsync();
+        Task<RoleInfoModel> GetRole(User user);
     }
 }

@@ -16,6 +16,7 @@ namespace Application.Interfaces
         Task<ServiceResponse<AccountDTO>> DeleteAccountAsync(int id);
         Task<ServiceResponse<AccountDTO>> UpdateAccountAsync(int id, AccountUpdateDTO updateDto);
         Task<ServiceResponse<AccountDTO>> AddAccountAsync(AccountAddDTO AccountAddDTO);
+        Task<ServiceResponse<UserDetailsModel>> GetCurrentUserAsync();
     }
 
 }
