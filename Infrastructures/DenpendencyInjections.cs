@@ -26,8 +26,8 @@ namespace Infrastructures
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IComboRepository, ComboRepository>();
 
-
-
+            services.AddScoped<IProductOrderRepository, ProductOrderRepository>();
+            services.AddScoped<IPODetailRepository, PODetailRepository>();
 
 
 
@@ -39,8 +39,8 @@ namespace Infrastructures
             services.AddScoped<IGenericRepository<Service>, GenericRepository<Service>>();
             services.AddScoped<IGenericRepository<Store>, GenericRepository<Store>>();
 
-
-
+            services.AddScoped<IGenericRepository<ProductOrder>, GenericRepository<ProductOrder>>();
+            services.AddScoped<IGenericRepository<ProductOrderDetails>, GenericRepository<ProductOrderDetails>>();
 
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();

@@ -14,7 +14,10 @@ namespace Application
         public IComboRepository ComboRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IRoleRepository RoleRepository { get; }
-        public IServiceRepository ServiceRepository { get; }    
+        public IServiceRepository ServiceRepository { get; }
+        
+        public IPODetailRepository PODetailRepository { get; }
+        public IProductOrderRepository ProductOrderRepository { get; }
 
 
 

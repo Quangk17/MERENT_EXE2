@@ -2,6 +2,8 @@
 using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.ComboDTOs;
 using Application.ViewModels.ProductDTOs;
+using Application.ViewModels.ProductOrderDetailDTOs;
+using Application.ViewModels.ProductOrderDTOs;
 using Application.ViewModels.RoleDTOs;
 using Application.ViewModels.ServiceDTOs;
 using Application.ViewModels.StoreDTOs;
@@ -28,6 +30,8 @@ namespace Infrastructures.Mappers
             CreateMap<User, UserDetailsModel>().ReverseMap();
             CreateMap<Role, RoleInfoModel>().ReverseMap();
 
+            CreateMap<ProductOrder, ProductOrderDTO>().ReverseMap();
+            CreateMap<ProductOrderDetails, PODetailDTO>().ReverseMap();
             //create
             CreateMap<User, AccountAddDTO>().ReverseMap();
             CreateMap<Product, ProductCreateDTO>().ReverseMap();
@@ -36,7 +40,8 @@ namespace Infrastructures.Mappers
             CreateMap<Service, ServiceCreateDTO>().ReverseMap();
             CreateMap<Store, StoreCreateDTO>().ReverseMap();
 
-
+            CreateMap<ProductOrder, ProductOrderCreateDTO>().ReverseMap();
+            CreateMap<ProductOrderDetails, PODetailCreateDTO>().ReverseMap();
             //update
             CreateMap<User, AccountUpdateDTO>().ReverseMap();
             CreateMap<Product, ProductUpdateDTO>().ReverseMap();
@@ -46,6 +51,8 @@ namespace Infrastructures.Mappers
             CreateMap<Store, StoreUpdateDTO>().ReverseMap();
             CreateMap<Product, UploadImageDTO>().ReverseMap();
 
+            CreateMap<ProductOrder, ProductOrderUpdateDTO>().ReverseMap();
+            CreateMap<ProductOrderDetails, PODetailUpdateDTO>().ReverseMap();
             //Pagination
             CreateMap(typeof(Pagination<>), typeof(Pagination<>));
         }

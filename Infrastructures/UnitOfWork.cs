@@ -15,12 +15,15 @@ namespace Infrastructures
         private readonly IProductRepository _productRepository;
         private readonly IComboRepository _comboRepository;
 
+        private readonly IProductOrderRepository _productOrderRepository;
+        private readonly IPODetailRepository _pODetailRepository;
+
 
 
         //
 
         public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IComboRepository comboRepository, IServiceRepository serviceRepository,
-            IStoreRepository storeRepository, IRoleRepository roleRepository, IProductRepository productRepository)
+            IStoreRepository storeRepository, IRoleRepository roleRepository, IProductRepository productRepository, IPODetailRepository pODetailRepository, IProductOrderRepository productOrderRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -29,6 +32,9 @@ namespace Infrastructures
             _roleRepository = roleRepository;
             _productRepository = productRepository;
             _comboRepository = comboRepository;
+
+            _pODetailRepository = pODetailRepository;
+            _productOrderRepository = productOrderRepository;
 
         }
 
@@ -43,6 +49,9 @@ namespace Infrastructures
         public IRoleRepository RoleRepository => _roleRepository;
 
         public IServiceRepository ServiceRepository => _serviceRepository;
+
+        public IProductOrderRepository ProductOrderRepository => _productOrderRepository;
+        public IPODetailRepository PODetailRepository => _pODetailRepository;
 
         public async Task<int> SaveChangeAsync()
         {

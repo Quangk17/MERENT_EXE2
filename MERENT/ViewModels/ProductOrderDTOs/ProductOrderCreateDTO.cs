@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Entites
+namespace Application.ViewModels.ProductOrderDTOs
 {
-    public class ProductOrder : BaseEntity
+    public class ProductOrderCreateDTO
     {
         public string? Description { get; set; }
         public DateTime? OrderDate { get; set; }
@@ -14,11 +14,5 @@ namespace Domain.Entites
         public Int64? TotalPrice { get; set; }
         public int? UserID { get; set; }
         public int? OrderDetailID { get; set; }
-
-
-        //R
-        public virtual ICollection<ProductOrderDetails>? ProductOrderDetails { get; set; }
-        public virtual User? User { get; set; }
-
-        }
     }
+}
