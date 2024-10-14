@@ -26,7 +26,7 @@ namespace Domain.Entites
 
         public virtual Role? Role {  get; set; }   
         public virtual ICollection<ProductOrder>?ProductOrders { get; set; }
-        public virtual Wallets? Wallets { get; set; }
+        public virtual Wallet? Wallets { get; set; }
         public virtual ICollection<ServiceOrder>? ServiceOrders { get; set; }
         public virtual Store? Store { get; set; }
 

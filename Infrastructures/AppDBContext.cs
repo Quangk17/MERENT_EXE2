@@ -12,7 +12,7 @@ namespace Infrastructures
         {
 
         }
-        public DbSet<Wallets> Wallets { get; set; }
+        public DbSet<Wallet> Wallets { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<ServiceOrderDetail> ServiceOrderDetails { get; set; }
@@ -26,8 +26,7 @@ namespace Infrastructures
         public DbSet<Product> Products { get; set; }
         public DbSet<ComboOfProduct> ComboOfProducts { get; set; }
         public DbSet<Combo> Combos { get; set; }
-
-
+        public DbSet<Transaction> Transactions { get; set;}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -147,10 +146,15 @@ namespace Infrastructures
             .HasForeignKey(r => r.RoleID)
             .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Wallets>()
+            modelBuilder.Entity<Wallet>()
              .HasOne(w => w.User)
              .WithOne(u => u.Wallets)
              .HasForeignKey<User>(u => u.WalletId);
+
+            modelBuilder.Entity<Transaction>()
+             .HasOne(w => w.Wallets)
+             .WithMany(u => u.Transactions)
+             .HasForeignKey(u => u.WalletId);
         }
     }
 

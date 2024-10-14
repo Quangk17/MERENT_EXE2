@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites
 {
-    public class Wallets: BaseEntity
+    public class Wallet: BaseEntity
     {
         public Int64? Cash {  get; set; }
         //R
         public virtual User? User { get; set; }  
-
+        public virtual ICollection<Transaction>? Transactions { get; set; }
     }
 }
