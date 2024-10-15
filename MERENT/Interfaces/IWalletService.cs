@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Application.ServiceRespones;
+using Application.ViewModels.WalletDTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,11 @@ namespace Application.Interfaces
 {
     public interface IWalletService
     {
+        Task<ServiceResponse<List<WalletDTO>>> GetWalletsAsync();
+        Task<ServiceResponse<WalletDTO>> GetWalletByIdAsync(int id);
+        Task<ServiceResponse<WalletDTO>> DeleteWalletAsync(int id);
+        Task<ServiceResponse<WalletDTO>> UpdateWalletAsync(int id, WalletUpdateDTO updateDto);
+        Task<ServiceResponse<WalletDTO>> CreateWalletAsync(WalletCreateDTO wallet);
+
     }
 }

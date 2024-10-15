@@ -29,6 +29,8 @@ namespace Infrastructures
             services.AddScoped<IProductOrderRepository, ProductOrderRepository>();
             services.AddScoped<IPODetailRepository, PODetailRepository>();
 
+            services.AddScoped<IWalletRepository, WalletRepository>();
+            services.AddScoped<ITransactionRepository, TransactionRepository>();
 
 
             // add generic repository
@@ -42,6 +44,8 @@ namespace Infrastructures
             services.AddScoped<IGenericRepository<ProductOrder>, GenericRepository<ProductOrder>>();
             services.AddScoped<IGenericRepository<ProductOrderDetails>, GenericRepository<ProductOrderDetails>>();
 
+            services.AddScoped<IGenericRepository<Wallet>, GenericRepository<Wallet>>();
+            services.AddScoped<IGenericRepository<Transaction>, GenericRepository<Transaction>>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

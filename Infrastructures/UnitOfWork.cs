@@ -18,12 +18,23 @@ namespace Infrastructures
         private readonly IProductOrderRepository _productOrderRepository;
         private readonly IPODetailRepository _pODetailRepository;
 
+        private readonly IWalletRepository _walletRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
 
         //
 
-        public UnitOfWork(AppDbContext dbContext, IAccountRepository accountRepository, IComboRepository comboRepository, IServiceRepository serviceRepository,
-            IStoreRepository storeRepository, IRoleRepository roleRepository, IProductRepository productRepository, IPODetailRepository pODetailRepository, IProductOrderRepository productOrderRepository)
+        public UnitOfWork(AppDbContext dbContext, 
+            IAccountRepository accountRepository, 
+            IComboRepository comboRepository, 
+            IServiceRepository serviceRepository,
+            IStoreRepository storeRepository,
+            IRoleRepository roleRepository, 
+            IProductRepository productRepository,
+            IPODetailRepository pODetailRepository,
+            IProductOrderRepository productOrderRepository,
+            IWalletRepository walletRepository,
+            ITransactionRepository transactionRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -35,7 +46,8 @@ namespace Infrastructures
 
             _pODetailRepository = pODetailRepository;
             _productOrderRepository = productOrderRepository;
-
+            _walletRepository = walletRepository;
+            _transactionRepository = transactionRepository;
         }
 
         public IAccountRepository AccountRepository => _accountRepository;
@@ -52,6 +64,8 @@ namespace Infrastructures
 
         public IProductOrderRepository ProductOrderRepository => _productOrderRepository;
         public IPODetailRepository PODetailRepository => _pODetailRepository;
+        public IWalletRepository WalletRepository => _walletRepository;
+        public ITransactionRepository TransactionRepository => _transactionRepository;
 
         public async Task<int> SaveChangeAsync()
         {

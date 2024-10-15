@@ -19,8 +19,8 @@ namespace Application
         public IPODetailRepository PODetailRepository { get; }
         public IProductOrderRepository ProductOrderRepository { get; }
 
-
-
+        public IWalletRepository WalletRepository { get; }
+        public ITransactionRepository TransactionRepository { get; }
 
         public Task<int> SaveChangeAsync();
     }
