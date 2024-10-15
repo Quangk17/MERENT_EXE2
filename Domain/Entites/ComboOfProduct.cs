@@ -10,6 +10,7 @@ namespace Domain.Entites
     {
         public int ProductID { get; set; }
         public int ComboID { get; set; }
+        public string? UrlImg { get; set; }
         public string? Description { get; set; }
         public Int64 Quantity { get; set; }
 
