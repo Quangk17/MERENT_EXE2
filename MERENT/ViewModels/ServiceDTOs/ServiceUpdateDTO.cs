@@ -12,5 +12,6 @@ namespace Application.ViewModels.ServiceDTOs
         public string? Name { get; set; }
         public string? Description { get; set; }
         public Int64? Price { get; set; }
+        public string? UrlImg { get; set; }
     }
 }
