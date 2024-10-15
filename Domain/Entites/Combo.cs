@@ -10,6 +10,7 @@ namespace Domain.Entites
     {
         public string? Name {  get; set; }
         public string? Description { get; set; }
+        public string? UrlImg { get; set; }
         //R
         public virtual ICollection<ComboOfProduct>? ComboOfProducts { get; set; }   
 
