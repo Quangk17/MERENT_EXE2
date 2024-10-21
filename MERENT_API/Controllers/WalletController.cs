@@ -5,6 +5,7 @@ using Application.ViewModels.WalletDTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace MERENT_API.Controllers
 {
@@ -98,7 +99,9 @@ namespace MERENT_API.Controllers
         {
             try
             {
-                var userId = _claimsService.GetCurrentUserId;
+                var userIdString = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                int userId = int.Parse(userIdString);
+
 
                 if (userId == null)
                 {

@@ -92,6 +92,10 @@ builder.Services.AddSwaggerGen(setup =>
     });
 });
 
+
+
+builder.Services.AddAuthorization();
+
 //CORS - Set Policy
 builder.Services.AddCors(opt =>
 {

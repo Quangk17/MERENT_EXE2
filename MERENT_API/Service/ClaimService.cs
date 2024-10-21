@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
-using System.Security.Principal;
+using Microsoft.AspNetCore.Http;
 using Application.Interfaces;
 using Application.Utils;
-using Microsoft.IdentityModel.Tokens;
+
 namespace MERENT_API.Service
 {
     public class ClaimServices : IClaimsService
