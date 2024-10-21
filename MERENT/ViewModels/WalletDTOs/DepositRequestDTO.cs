@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Application.ViewModels.WalletDTOs
 {
-    public class WalletCreateDTO
+    public class DepositRequestDTO
     {
-        public long? Cash { get; set; }
+        public int Amount { get; set; }
     }
 }

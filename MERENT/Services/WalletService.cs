@@ -3,6 +3,7 @@ using Application.ServiceRespones;
 using Application.ViewModels.WalletDTOs;
 using AutoMapper;
 using Domain.Entites;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -194,5 +195,13 @@ namespace Application.Services
             return response;
         }
 
+
+
+        public async Task<Transaction> Deposit(int userId, long amount, string? paymentMethod)
+        {
+            var transaction = await _unitOfWork.WalletRepository.DepositMoney(userId, WalletTypeEnums.PERSONAL, amount, paymentMethod);
+            var result = _mapper.Map<Transaction>(transaction);
+            return result;
+        }
     }
 }

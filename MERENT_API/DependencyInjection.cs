@@ -25,6 +25,7 @@ namespace MERENT_API
             services.AddFluentValidationAutoValidation();
             services.AddFluentValidationClientsideAdapters();
             services.AddMemoryCache();
+            services.AddScoped<IPayOSService, PayOSService>();
             // infrastructure service
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 

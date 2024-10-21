@@ -1,5 +1,6 @@
 ﻿using Application.ServiceRespones;
 using Application.ViewModels.WalletDTOs;
+using Domain.Entites;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,9 @@ namespace Application.Interfaces
         Task<ServiceResponse<WalletDTO>> DeleteWalletAsync(int id);
         Task<ServiceResponse<WalletDTO>> UpdateWalletAsync(int id, WalletUpdateDTO updateDto);
         Task<ServiceResponse<WalletDTO>> CreateWalletAsync(WalletCreateDTO wallet);
+
+
+        Task<Transaction> Deposit(int userId, long amount, string? paymentMethod);
 
     }
 }

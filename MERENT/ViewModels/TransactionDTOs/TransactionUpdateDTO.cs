@@ -10,7 +10,7 @@ namespace Application.ViewModels.TransactionDTOs
     {
         public int Id { get; set; }
         public int WalletId { get; set; }
-        public Int64 TotalAmount { get; set; }
+        public long TotalAmount { get; set; }
         public string? PaymentType { get; set; }
     }
 }

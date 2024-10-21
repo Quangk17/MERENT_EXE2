@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.ViewModels.WalletDTOs
+namespace Domain.Enums
 {
-    public class WalletCreateDTO
+    public enum WalletRequestTypeEnums
     {
-        public long? Cash { get; set; }
+        ALL,
+        PERSONAL,
+        ORGANIZATIONAL
     }
 }

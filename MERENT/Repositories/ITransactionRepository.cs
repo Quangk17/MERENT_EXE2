@@ -9,5 +9,6 @@ namespace Application.Repositories
 {
     public interface ITransactionRepository : IGenericRepository<Transaction>
     {
+        Task<List<Transaction>> GetTransactionsByUserId(int userId, string walletRequestTypeEnums);
     }
 }

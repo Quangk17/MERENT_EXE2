@@ -149,7 +149,7 @@ namespace Infrastructures
             modelBuilder.Entity<Wallet>()
              .HasOne(w => w.User)
              .WithOne(u => u.Wallets)
-             .HasForeignKey<User>(u => u.WalletId);
+             .HasForeignKey<Wallet>(u => u.UserId);
 
             modelBuilder.Entity<Transaction>()
              .HasOne(w => w.Wallets)
