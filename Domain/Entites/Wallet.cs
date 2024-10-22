@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Domain.Entites
 {
     public class Wallet: BaseEntity
-    {
+    {   //test
         public long? Cash {  get; set; }
         public int? UserId { get; set; }
         public string WalletType { get; set; }
