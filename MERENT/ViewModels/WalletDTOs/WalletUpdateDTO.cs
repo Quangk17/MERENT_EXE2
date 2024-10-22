@@ -10,5 +10,6 @@ namespace Application.ViewModels.WalletDTOs
     {
         public string Id { get; set; }
         public Int64? Cash { get; set; }
+        public string? WalletType { get; set; }
     }
 }

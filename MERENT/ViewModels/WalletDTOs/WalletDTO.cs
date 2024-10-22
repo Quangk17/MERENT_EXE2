@@ -11,5 +11,6 @@ namespace Application.ViewModels.WalletDTOs
         public int Id { get; set; }
         public int UserId { get; set; }
         public long? Cash { get; set; }
+        public string? WalletType { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Domain.Entites
     {   //test
         public long? Cash {  get; set; }
         public int? UserId { get; set; }
-        public string WalletType { get; set; }
+        public string? WalletType { get; set; }
         //R
         public virtual User? User { get; set; }  
         public virtual ICollection<Transaction>? Transactions { get; set; }
