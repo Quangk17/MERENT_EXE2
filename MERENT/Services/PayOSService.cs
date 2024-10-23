@@ -35,7 +35,7 @@ namespace Application.Services
 
         public async Task<string> CreateLink(int depositMoney)
         {
-            var domain = "https://eventzone.id.vn/payment";
+            var domain = "https://merent.vercel.app/Cart/Checkout";
 
             var paymentLinkRequest = new PaymentData(
                 orderCode: int.Parse(DateTimeOffset.Now.ToString("ffffff")),

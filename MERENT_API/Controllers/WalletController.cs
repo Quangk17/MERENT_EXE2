@@ -100,6 +100,10 @@ namespace MERENT_API.Controllers
             try
             {
                 var userIdString = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+                if (string.IsNullOrEmpty(userIdString))
+                {
+                    throw new Exception("UserId is invalid or you are not logged in");
+                }
                 int userId = int.Parse(userIdString);
 
 
