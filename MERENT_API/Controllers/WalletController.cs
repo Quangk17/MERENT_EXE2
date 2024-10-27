@@ -35,6 +35,44 @@ namespace MERENT_API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("user-wallet")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetListWalletByUserId()
+        {
+            try
+            {
+                var userIdString = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+
+
+                if (userIdString == null || !int.TryParse(userIdString, out int userId))
+                {
+                    throw new Exception("User Id is invalid");
+                }
+                var result = await _walletService.GetWalletByUserId(userId);
+                return Ok(ServiceResponse<List<WalletDTO>>.Succeed(result, "Get 2 Wallet Of User with Id " + userId + " Successfully!"));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ServiceResponse<object>.Fail(ex));
+            }
+        }
+
+
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetWalletById(int id)
+        {
+            var result = await _walletService.GetWalletByIdAsync(id);
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -79,19 +117,6 @@ namespace MERENT_API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetWalletById(int id)
-        {
-            var result = await _walletService.GetWalletByIdAsync(id);
-            if (!result.Success)
-            {
-                return BadRequest(result);
-            }
-            return Ok(result);
-        }
 
         [Route("create-payment-link-payos")]
         [HttpPost]

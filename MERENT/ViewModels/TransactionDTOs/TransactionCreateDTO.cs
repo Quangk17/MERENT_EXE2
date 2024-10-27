@@ -11,5 +11,6 @@ namespace Application.ViewModels.TransactionDTOs
         public int WalletId { get; set; }
         public long TotalAmount { get; set; }
         public string? PaymentType { get; set; }
+        public string? Status { get; set; }
     }
 }

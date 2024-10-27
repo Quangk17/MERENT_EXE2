@@ -7,6 +7,7 @@ using Application.ViewModels.ProductOrderDTOs;
 using Application.ViewModels.RoleDTOs;
 using Application.ViewModels.ServiceDTOs;
 using Application.ViewModels.StoreDTOs;
+using Application.ViewModels.TransactionDTOs;
 using Application.ViewModels.WalletDTOs;
 using AutoMapper;
 using Domain.Entites;
@@ -35,6 +36,8 @@ namespace Infrastructures.Mappers
             CreateMap<ProductOrderDetails, PODetailDTO>().ReverseMap();
 
             CreateMap<Wallet, WalletDTO>().ReverseMap();
+            CreateMap<Transaction, TransactionDTO>().ReverseMap();
+            CreateMap<Transaction, TransactionResponsesDTO>().ReverseMap();
             //create
             CreateMap<User, AccountAddDTO>().ReverseMap();
             CreateMap<Product, ProductCreateDTO>().ReverseMap();
@@ -47,6 +50,7 @@ namespace Infrastructures.Mappers
             CreateMap<ProductOrderDetails, PODetailCreateDTO>().ReverseMap();
 
             CreateMap<Wallet, WalletCreateDTO>().ReverseMap();
+            CreateMap<Transaction, TransactionCreateDTO>().ReverseMap();
             //update
             CreateMap<User, AccountUpdateDTO>().ReverseMap();
             CreateMap<Product, ProductUpdateDTO>().ReverseMap();
@@ -55,7 +59,8 @@ namespace Infrastructures.Mappers
             CreateMap<Service, ServiceUpdateDTO>().ReverseMap();
             CreateMap<Store, StoreUpdateDTO>().ReverseMap();
             CreateMap<Product, UploadImageDTO>().ReverseMap();
-           
+            CreateMap<Transaction, TransactionUpdateDTO>().ReverseMap();
+
 
             CreateMap<ProductOrder, ProductOrderUpdateDTO>().ReverseMap();
             CreateMap<ProductOrderDetails, PODetailUpdateDTO>().ReverseMap();

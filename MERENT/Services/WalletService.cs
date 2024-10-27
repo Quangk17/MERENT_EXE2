@@ -203,5 +203,12 @@ namespace Application.Services
             var result = _mapper.Map<Transaction>(transaction);
             return result;
         }
+
+        public async Task<List<WalletDTO>> GetWalletByUserId(int userId)
+        {
+            var wallets = await _unitOfWork.WalletRepository.GetListWalletByUserId(userId);
+            var result = _mapper.Map<List<WalletDTO>>(wallets);
+            return result;
+        }
     }
 }

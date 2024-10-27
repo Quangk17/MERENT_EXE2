@@ -69,7 +69,7 @@ namespace Infrastructures.Repositories
             var wallets = await _dbContext.Wallets.Where(x => x.UserId == userId).ToListAsync();
 
             //check if wallet with type personal is null, create new personal wallet
-            var personalWallet = wallets.FirstOrDefault(x => x.WalletType.ToUpper() == WalletTypeEnums.PERSONAL.ToString().ToUpper());
+            /*var personalWallet = wallets.FirstOrDefault(x => x.WalletType.ToUpper() == WalletTypeEnums.PERSONAL.ToString().ToUpper());
             if (personalWallet == null)
             {
                 var newPersonalWallet = new Wallet
@@ -96,7 +96,7 @@ namespace Infrastructures.Repositories
                 wallets.Add(newOrganizationWallet);
             }
 
-            await _dbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();*/
 
             return wallets;
         }

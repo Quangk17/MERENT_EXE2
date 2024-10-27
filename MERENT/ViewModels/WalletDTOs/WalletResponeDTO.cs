@@ -8,8 +8,8 @@ namespace Application.ViewModels.WalletDTOs
 {
     public class WalletResponseDTO
     {
-        public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
         public string WalletType { get; set; }
         public long Cash { get; set; }
     }
