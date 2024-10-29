@@ -33,22 +33,24 @@ namespace Application.Services
             _logger = logger;
         }
 
-        public async Task<string> CreateLink(int depositMoney)
+       public async Task<string> CreateLink(int depositMoney)
         {
             var domain = "https://merent-fe.vercel.app/#/payment";
-
+            var orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
+            
             var paymentLinkRequest = new PaymentData(
-                orderCode: int.Parse(DateTimeOffset.Now.ToString("ffffff")),
+                orderCode: orderCode,
                 amount: depositMoney,
                 description: "Nạp tiền: " + depositMoney,
                 items: [new("Nạp tiền " + depositMoney, 1, depositMoney)],
-                returnUrl: domain + "?success=true&transactionId=" + "GG" + "&amount=" + depositMoney,
-                cancelUrl: domain + "?canceled=true&transactionId=" + "GG" + "&amount=" + depositMoney
+                returnUrl: $"{domain}?code=00&cancel=false&status=PAID&transactionId=GG&orderCode={orderCode}&amount={depositMoney}",
+                cancelUrl: $"{domain}?code=00&cancel=true&status=CANCELLED&transactionId=GG&orderCode={orderCode}&amount={depositMoney}"
             );
+        
             var response = await _payOS.createPaymentLink(paymentLinkRequest);
-
             return response.checkoutUrl;
         }
+
 
         public async Task<PayOSWebhookResponse> ReturnWebhook(PayOSWebhook payOSWebhook)
         {
