@@ -17,6 +17,8 @@ namespace Application.Interfaces
         Task<ServiceResponse<ProductOrderDTO>> DeleteProductOrderAsync(int id);
         Task<ServiceResponse<ProductOrderDTO>> UpdateProductOrderAsync(int id, ProductOrderUpdateDTO updateDto);
         Task<ServiceResponse<ProductOrderDTO>> CreateProductOrderAsync(ProductOrderCreateDTO productOrder);
+        Task<ServiceResponse<List<ProductOrderDTO>>> GetProductOrdersByUserIdAsync(int userId);
+        Task<ServiceResponse<ProductOrderDTO>> GetLatestProductOrderByUserIdAsync(int userId);
 
     }
 }

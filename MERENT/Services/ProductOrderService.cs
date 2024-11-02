@@ -188,5 +188,67 @@ namespace Application.Services
             return response;
         }
 
+
+        public async Task<ServiceResponse<List<ProductOrderDTO>>> GetProductOrdersByUserIdAsync(int userId)
+        {
+            var response = new ServiceResponse<List<ProductOrderDTO>>();
+
+            try
+            {
+                var orders = await _unitOfWork.ProductOrderRepository.GetProductOrdersByUserIdAsync(userId);
+                var orderDTOs = orders.Select(order => _mapper.Map<ProductOrderDTO>(order)).ToList();
+
+                if (orderDTOs.Any())
+                {
+                    response.Data = orderDTOs;
+                    response.Success = true;
+                    response.Message = $"Found {orderDTOs.Count} product orders for user {userId}.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "No product orders found for this user.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<ProductOrderDTO>> GetLatestProductOrderByUserIdAsync(int userId)
+        {
+            var response = new ServiceResponse<ProductOrderDTO>();
+
+            try
+            {
+                var latestOrder = await _unitOfWork.ProductOrderRepository.GetLatestProductOrderByUserIdAsync(userId);
+
+                if (latestOrder != null)
+                {
+                    response.Data = _mapper.Map<ProductOrderDTO>(latestOrder);
+                    response.Success = true;
+                    response.Message = "Successfully retrieved the latest product order.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "No product orders found for this user.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+
+
     }
 }

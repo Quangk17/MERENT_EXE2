@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Repositories;
 using Domain.Entites;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,22 @@ namespace Infrastructures.Repositories
         {
             _dbContext = context;
         }
+
+        public async Task<IEnumerable<ProductOrder>> GetProductOrdersByUserIdAsync(int userId)
+        {
+            return await _dbContext.ProductOrders
+                .Where(order => order.UserID == userId)
+                .ToListAsync();
+        }
+
+        public async Task<ProductOrder?> GetLatestProductOrderByUserIdAsync(int userId)
+        {
+            return await _dbContext.ProductOrders
+                .Where(order => order.UserID == userId)
+                .OrderByDescending(order => order.CreationDate)
+                .FirstOrDefaultAsync();
+        }
+
+
     }
 }

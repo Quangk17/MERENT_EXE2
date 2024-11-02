@@ -9,5 +9,7 @@ namespace Application.Repositories
 {
     public interface IProductOrderRepository: IGenericRepository<ProductOrder>
     {
+        Task<IEnumerable<ProductOrder>> GetProductOrdersByUserIdAsync(int userId);
+        Task<ProductOrder?> GetLatestProductOrderByUserIdAsync(int userId);
     }
 }

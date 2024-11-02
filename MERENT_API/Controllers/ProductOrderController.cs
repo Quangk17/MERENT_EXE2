@@ -23,14 +23,41 @@ namespace MERENT_API.Controllers
             return Ok(result);
         }
 
-       /* [HttpGet("{name}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> SearchProductOrderByName(string name)
+        /* [HttpGet("{name}")]
+         [ProducesResponseType(StatusCodes.Status200OK)]
+         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+         public async Task<IActionResult> SearchProductOrderByName(string name)
+         {
+             var result = await _productOrderService.SearchProductOrderByNameAsync(name);
+             return Ok(result);
+         }*/
+
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetProductOrdersByUserId(int userId)
         {
-            var result = await _productOrderService.SearchProductOrderByNameAsync(name);
-            return Ok(result);
-        }*/
+            var result = await _productOrderService.GetProductOrdersByUserIdAsync(userId);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return NotFound(result.Message);
+        }
+
+        [HttpGet("user/{userId}/latest")]
+        public async Task<IActionResult> GetLatestProductOrderByUserId(int userId)
+        {
+            var result = await _productOrderService.GetLatestProductOrderByUserIdAsync(userId);
+
+            if (result.Success)
+            {
+                return Ok(result.Data);
+            }
+
+            return NotFound(result.Message);
+        }
+
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
