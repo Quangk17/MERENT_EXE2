@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,6 @@ namespace Application.ViewModels.ServiceOrderDTOs
         public string? ServiceDate { get; set; }
         public Int64 TotalAmount { get; set; }
         public int? UserId { get; set; }
+        public OrderStatusTypeEnums? StatusOrder { get; set; }
     }
 }

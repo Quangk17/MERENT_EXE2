@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,5 +15,6 @@ namespace Application.ViewModels.ProductOrderDTOs
         public Int64? TotalAmount { get; set; }
         public Int64? TotalPrice { get; set; }
         public int? UserID { get; set; }
+        public OrderStatusTypeEnums? StatusOrder { get; set; }
     }
 }

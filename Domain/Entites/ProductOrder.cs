@@ -13,6 +13,7 @@ namespace Domain.Entites
         public Int64? TotalAmount { get; set; }
         public Int64? TotalPrice { get; set; }
         public int? UserID { get; set; }
+        public string? StatusOrder { get; set; }
 
 
         //R
