@@ -66,13 +66,7 @@ namespace Application.Services
                 //string responseCode = verifiedData.code;
                 //string orderCode = verifiedData.orderCode.ToString();
                 //string transactionId = "TRANS" + orderCode;
-                if (webhookType == null || webhookType.data == null || webhookType.data.orderCode == null)
-                {
-                    throw new ArgumentNullException("Webhook data or orderCode is null.");
-                }
-
-                var transactionId = int.Parse(webhookType.data.orderCode.ToString());
-                var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(transactionId);
+                var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(int.Parse(webhookType.data.orderCode.ToString()));
 
 
                 // Handle the webhook based on the transaction status
