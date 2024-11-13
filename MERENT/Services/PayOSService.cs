@@ -23,7 +23,8 @@ namespace Application.Services
         private readonly ILogger<PayOSService> _logger;
         private readonly PayOS _payOS;
 
-        public PayOSService(ILogger<PayOSService> logger)
+
+        public PayOSService(ILogger<PayOSService> logger , IUnitOfWork unitOfWork)
         {
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -33,6 +34,7 @@ namespace Application.Services
             var ApiKey = configuration["PayOS:ApiKey"];
             _payOS = new PayOS(ClientId, ApiKey, ChecksumKey);
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<string> CreateLink(int depositMoney)
@@ -121,8 +123,14 @@ namespace Application.Services
                 //string responseCode = verifiedData.code;
                 //string orderCode = verifiedData.orderCode.ToString();
                 //string transactionId = "TRANS" + orderCode;
+                if (webhookType == null || webhookType.data == null || webhookType.data.orderCode == null)
+                {
+                    throw new ArgumentNullException("Webhook data or orderCode is null.");
+                }
 
-                var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(int.Parse(webhookType.data.orderCode.ToString()));
+                var transactionId = int.Parse(webhookType.data.orderCode.ToString());
+                var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(transactionId);
+
 
                 // Handle the webhook based on the transaction status
                 switch (webhookType.data.code)
