@@ -4,6 +4,7 @@ using Application.Services;
 using Application.ViewModels.WalletDTOs;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Net.payOS.Types;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -191,7 +192,26 @@ namespace MERENT_API.Controllers
             }
         }
 
+        [HttpPost("hook")]
+        public async Task<IActionResult> ReceiveWebhook([FromBody] WebhookType webhookBody)
+        {
+            try
+            {
+                var result = await _payOSService.ReturnWebhook2(webhookBody);
 
+                if (result.Success)
+                {
+                    return Ok(new { Message = "Webhook processed successfully" });
+                }
+
+                return BadRequest(new { Message = "Webhook processing failed." });
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
     }
 
 }

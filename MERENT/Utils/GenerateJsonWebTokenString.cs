@@ -13,24 +13,28 @@ namespace Application.Utils
 {
     public static class GenerateJsonWebTokenString
     {
-        public static string GenerateJsonWebToken(this User user, AppConfiguration appSettingConfiguration, string SecretKey, DateTime now, string rolename)
+        public static string GenerateJsonWebToken(this User user, AppConfiguration appSettingConfiguration, string secretKey, DateTime now, string? name)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(SecretKey));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
             var claims = new[]
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim("Email" ,user.Email),
-                new Claim(ClaimTypes.Role ,rolename),
-            };
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()), // Using NameIdentifier for compatibility
+            new Claim("Email", user.Email),
+            new Claim(ClaimTypes.Role, user.Name)
+        };
+
             var token = new JwtSecurityToken(
                 issuer: appSettingConfiguration.JWTSection.Issuer,
                 audience: appSettingConfiguration.JWTSection.Audience,
                 claims: claims,
                 expires: now.AddMinutes(15),
-                signingCredentials: credentials);
+                signingCredentials: credentials
+            );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
+
 }

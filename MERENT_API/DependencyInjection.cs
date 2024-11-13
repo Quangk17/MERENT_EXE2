@@ -7,6 +7,7 @@ using Application.Interfaces;
 using Application.Services;
 using Application.Repositories;
 using Infrastructures.Repositories;
+using MERENT_API.Service;
 
 namespace MERENT_API
 {
@@ -26,9 +27,10 @@ namespace MERENT_API
             services.AddFluentValidationClientsideAdapters();
             services.AddMemoryCache();
             services.AddScoped<IPayOSService, PayOSService>();
+            services.AddHttpContextAccessor();
             // infrastructure service
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            services.AddScoped<IClaimsService, ClaimServices>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IStoreRepository, StoreRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();

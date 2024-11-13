@@ -12,6 +12,8 @@ using System.Threading.Tasks;
 using static Application.Services.PayOSObjects;
 using Net.payOS;
 using Net.payOS.Types;
+using Domain.Enums;
+using Domain.Entites;
 
 namespace Application.Services
 {
@@ -106,6 +108,73 @@ namespace Application.Services
                     };
             }
         }
+
+        public async Task<WebhookResponse> ReturnWebhook2(WebhookType webhookType)
+        {
+            try
+            {
+                // Log the receipt of the webhook
+                //Seriablize the object to log
+                _logger.LogInformation(JsonConvert.SerializeObject(webhookType));
+
+                //WebhookData verifiedData = _payOS.verifyPaymentWebhookData(webhookType); //xác thực data from webhook
+                //string responseCode = verifiedData.code;
+                //string orderCode = verifiedData.orderCode.ToString();
+                //string transactionId = "TRANS" + orderCode;
+
+                var transaction = await _unitOfWork.TransactionRepository.GetByIdAsync(int.Parse(webhookType.data.orderCode.ToString()));
+
+                // Handle the webhook based on the transaction status
+                switch (webhookType.data.code)
+                {
+                    case "00":
+                        // Update the transaction status
+                        await UpdateStatusTransaction(transaction);
+
+                        return new WebhookResponse
+                        {
+                            Success = true,
+                            Note = "Payment processed successfully"
+                        };
+
+                    case "01":
+                        // Update the transaction status
+                        await UpdateErrorTransaction(transaction, "Payment failed");
+
+                        return new WebhookResponse
+                        {
+                            Success = false,
+                            Note = "Invalid parameters"
+                        };
+
+                    default:
+                        return new WebhookResponse
+                        {
+                            Success = false,
+                            Note = "Unhandled code"
+                        };
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                throw ex;
+            }
+            
+        }
+        private async Task UpdateStatusTransaction(Domain.Entites.Transaction transaction)
+        {
+            transaction.Status = TransactionStatusEnums.SUCCESS.ToString();
+            //Plus money to user wallet
+            var wallet = await _unitOfWork.WalletRepository.GetListWalletByUserId(transaction.WalletId);
+            await _unitOfWork.SaveChangeAsync();
+        }
+
+        public async Task UpdateErrorTransaction(Domain.Entites.Transaction transaction, string note)
+        {
+            transaction.Status = TransactionStatusEnums.FAILED.ToString();
+            await _unitOfWork.SaveChangeAsync();
+        }
     }
 
     public static class PayOSUtils
@@ -188,6 +257,12 @@ namespace Application.Services
             public string VirtualAccountName { get; set; }
             public string VirtualAccountNumber { get; set; }
             //public string TransactionId { get; set; }
+        }
+
+        public class WebhookResponse
+        {
+            public bool Success { get; set; }
+            public string Note { get; set; }
         }
     }
 }

@@ -32,7 +32,6 @@ namespace Application.Services
             try
             {
                 var currentUser = await _unitOfWork.AccountRepository.GetCurrentUserAsync();
-
                 if (currentUser != null)
                 {
                     var role = await _unitOfWork.AccountRepository.GetRole(currentUser);
@@ -42,23 +41,22 @@ namespace Application.Services
                     response.Success = true;
                     response.Data = data;
                     response.Message = "Successfully retrieved current user.";
-                    return response;
                 }
                 else
                 {
                     response.Success = false;
                     response.Message = "User not found.";
-                    response.Error = "User is not found due to error or expiration token.";
-                    return response;
                 }
             }
             catch (Exception ex)
             {
                 response.Success = false;
                 response.ErrorMessages = new List<string> { ex.Message };
-                return response;
             }
+
+            return response;
         }
+
 
 
         public async Task<ServiceResponse<AccountDTO>> AddAccountAsync(AccountAddDTO AccountAddDTO)

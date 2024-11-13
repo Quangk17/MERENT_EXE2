@@ -38,6 +38,7 @@ namespace Infrastructures.Mappers
             CreateMap<Wallet, WalletDTO>().ReverseMap();
             CreateMap<Transaction, TransactionDTO>().ReverseMap();
             CreateMap<Transaction, TransactionResponsesDTO>().ReverseMap();
+            CreateMap<User, UserDetailsModel>().ReverseMap();
             //create
             CreateMap<User, AccountAddDTO>().ReverseMap();
             CreateMap<Product, ProductCreateDTO>().ReverseMap();

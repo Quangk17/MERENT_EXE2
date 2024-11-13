@@ -34,8 +34,13 @@ builder.Services.AddWebAPIService();
 builder.Services.AddSingleton(configuration);
 
 // Add services to the container.
-
-
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -49,6 +54,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.SaveToken = true;
+        options.RequireHttpsMetadata = false;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -73,9 +80,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 
+
 builder.Services.AddSwaggerGen(setup =>
 {
-    // Include 'SecurityScheme' to use JWT Authentication
     var jwtSecurityScheme = new OpenApiSecurityScheme
     {
         BearerFormat = "JWT",
@@ -99,6 +106,7 @@ builder.Services.AddSwaggerGen(setup =>
         { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
+
 
 
 
@@ -140,14 +148,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseHttpsRedirection();
-app.UseAuthentication();
-
+app.UseAuthentication(); // Add this before UseAuthorization
 app.UseAuthorization();
 
-app.UseCors("CorsPolicyDevelopement");
+app.UseHttpsRedirection();
 
+app.UseSession();
+
+app.MapHealthChecks("/healthchecks");
+
+app.UseCors("CorsPolicyDevelopement");
+app.UseMiddleware<ConfirmationTokenMiddleware>();
 app.MapControllers();
 
 app.Run();

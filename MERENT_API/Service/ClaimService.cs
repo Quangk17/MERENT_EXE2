@@ -1,20 +1,28 @@
 ﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using Application.Interfaces;
-using Application.Utils;
 
 namespace MERENT_API.Service
 {
     public class ClaimServices : IClaimsService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
         public ClaimServices(IHttpContextAccessor httpContextAccessor)
         {
-            var identity = httpContextAccessor.HttpContext?.User?.Identity as ClaimsIdentity;
-            var extractedId = AuthenTools.GetCurrentUserId(identity);
-
-            GetCurrentUserId = string.IsNullOrEmpty(extractedId) ? 0 : Convert.ToInt32(extractedId);
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        public int GetCurrentUserId { get; }
+        public int GetCurrentUserId
+        {
+            get
+            {
+                var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim != null && int.TryParse(userIdClaim.Value, out int userId))
+                {
+                    return userId;
+                }
+                return -1; // Return -1 if no userId is found
+            }
+        }
     }
 }

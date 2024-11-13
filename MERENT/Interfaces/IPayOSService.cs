@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Net.payOS.Types;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,5 +12,6 @@ namespace Application.Interfaces
     {
         Task<string> CreateLink(int depositMoney);
         Task<PayOSWebhookResponse> ReturnWebhook(PayOSWebhook payOSWebhook);
+        Task<WebhookResponse> ReturnWebhook2(WebhookType webhookBody);
     }
 }
