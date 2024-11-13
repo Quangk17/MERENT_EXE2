@@ -54,63 +54,6 @@ namespace Application.Services
             return response.checkoutUrl;
         }
 
-        public async Task<PayOSWebhookResponse> ReturnWebhook(PayOSWebhook payOSWebhook)
-        {
-            // Log the receipt of the webhook
-            //Seriablize the object to log
-            _logger.LogInformation(JsonConvert.SerializeObject(payOSWebhook));
-            _logger.LogInformation("Received webhook with Code: {Code}, Success: {Success}", payOSWebhook.Code, payOSWebhook.Success);
-
-            // Validate the webhook signature
-            if (!PayOSUtils.IsValidData(payOSWebhook, payOSWebhook.Signature))
-            {
-                _logger.LogWarning("Invalid webhook signature for OrderCode: {OrderCode}", payOSWebhook.Data.OrderCode);
-                return new PayOSWebhookResponse
-                {
-                    Success = false,
-                    Note = "Invalid signature"
-                };
-            }
-
-            // Log the validated data
-            _logger.LogInformation("Valid webhook data: OrderCode: {OrderCode}, Amount: {Amount}, Status: {Code}",
-                payOSWebhook.Data.OrderCode,
-                payOSWebhook.Data.Amount,
-                payOSWebhook.Code);
-
-            // Handle the webhook based on the transaction status
-            switch (payOSWebhook.Code)
-            {
-                case "00":
-                    _logger.LogInformation("Payment successful for OrderCode: {OrderCode}", payOSWebhook.Data.OrderCode);
-
-                    // Example: Update the order in the system, mark it as paid
-                    //var order = await _unitOfWork.WalletRepository.ConfirmTransaction(payOSWebhook.Data.OrderCode);
-
-                    return new PayOSWebhookResponse
-                    {
-                        Success = true,
-                        Note = "Payment processed successfully"
-                    };
-
-                case "01":
-                    _logger.LogError("Invalid parameters in the webhook for OrderCode: {OrderCode}", payOSWebhook.Data.OrderCode);
-                    return new PayOSWebhookResponse
-                    {
-                        Success = false,
-                        Note = "Invalid parameters"
-                    };
-
-                default:
-                    _logger.LogWarning("Unhandled webhook code: {Code} for OrderCode: {OrderCode}", payOSWebhook.Code, payOSWebhook.Data.OrderCode);
-                    return new PayOSWebhookResponse
-                    {
-                        Success = false,
-                        Note = "Unhandled code"
-                    };
-            }
-        }
-
         public async Task<WebhookResponse> ReturnWebhook2(WebhookType webhookType)
         {
             try
@@ -187,16 +130,11 @@ namespace Application.Services
 
     public static class PayOSUtils
     {
-        public static bool IsValidData(PayOSWebhook payOSWebhook, string transactionSignature)
+        public static bool IsValidData(WebhookType payOSWebhook, string transactionSignature, string ChecksumKey)
         {
             try
             {
-                IConfiguration configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true).Build();
-                var ChecksumKey = configuration["PayOS:ChecksumKey"];
-
-                JObject jsonObject = JObject.Parse(payOSWebhook.Data.ToString().Replace("'", "\""));
+                JObject jsonObject = JObject.Parse(JsonConvert.SerializeObject(payOSWebhook.data)); // Đảm bảo chuyển thành JSON hợp lệ
                 var sortedKeys = jsonObject.Properties().Select(p => p.Name).OrderBy(k => k).ToList();
 
                 StringBuilder transactionStr = new StringBuilder();
@@ -219,6 +157,7 @@ namespace Application.Services
             }
             return false;
         }
+
 
         public static string ComputeHmacSha256(string data, string key)
         {
