@@ -74,6 +74,28 @@ namespace MERENT_API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("users/me/wallets")]
+        public async Task<IActionResult> GetWalletByUserId()
+        {
+            try
+            {
+                if (_claimsService.GetCurrentUserId == -1)
+                {
+                    throw new Exception("401 - User have been not signed in");
+                }
+                var result = await _walletService.GetWalletByUserId(_claimsService.GetCurrentUserId);
+                if (result == null)
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ServiceResponse<object>.Fail(ex));
+            }
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -182,6 +204,8 @@ namespace MERENT_API.Controllers
                 return BadRequest(new { Message = ex.Message });
             }
         }
+
+
     }
 
 }
