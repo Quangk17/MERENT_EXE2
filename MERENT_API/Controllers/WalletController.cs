@@ -96,6 +96,27 @@ namespace MERENT_API.Controllers
             }
         }
 
+        [HttpPost("refund")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> RefundToWallet(int userId, long amount)
+        {
+            try
+            {
+                var result = await _walletService.RefundToWalletAsync(userId, amount);
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ServiceResponse<object>.Fail(ex));
+            }
+        }
+
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

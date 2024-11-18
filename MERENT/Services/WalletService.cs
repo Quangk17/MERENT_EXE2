@@ -210,5 +210,46 @@ namespace Application.Services
             var result = _mapper.Map<List<WalletDTO>>(wallets);
             return result;
         }
+
+        public async Task<ServiceResponse<WalletDTO>> RefundToWalletAsync(int userId, long amount)
+        {
+            var response = new ServiceResponse<WalletDTO>();
+            try
+            {
+                // Lấy ví của người dùng
+                var wallet = await _unitOfWork.WalletRepository.GetWalletByUserIdAndType(userId, WalletTypeEnums.PERSONAL);
+                if (wallet == null)
+                {
+                    response.Success = false;
+                    response.Message = "Wallet not found for the specified user.";
+                    return response;
+                }
+
+                // Cập nhật số tiền
+                wallet.Cash += amount;
+                _unitOfWork.WalletRepository.Update(wallet);
+
+                // Lưu thay đổi
+                if (await _unitOfWork.SaveChangeAsync() > 0)
+                {
+                    response.Data = _mapper.Map<WalletDTO>(wallet);
+                    response.Success = true;
+                    response.Message = $"Successfully refunded {amount} to the wallet.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "Failed to refund money to the wallet.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
     }
 }
