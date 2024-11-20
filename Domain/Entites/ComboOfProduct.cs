@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites
 {
-    public class ComboOfProduct
+    public class ComboOfProduct: BaseEntity
     {
         public int ProductID { get; set; }
         public int ComboID { get; set; }

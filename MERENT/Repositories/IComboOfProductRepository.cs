@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.Repositories
 {
-    public interface IProductRepository: IGenericRepository<Product>
+    public interface IComboOfProductRepository: IGenericRepository<ComboOfProduct>
     {
-        Task<List<Product>> GetAllProductsByIdsAsync(List<int> productIds);
     }
 }

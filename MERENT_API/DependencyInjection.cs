@@ -41,7 +41,7 @@ namespace MERENT_API
 
             services.AddScoped<IProductOrderRepository, ProductOrderRepository>();
             services.AddScoped<IPODetailRepository, PODetailRepository>();
-
+            services.AddScoped<IComboOfProductRepository, ComboOfProductRepository>();
 
             // controller API  service
             services.AddScoped<IServiceService, ServiceService>();
@@ -57,6 +57,7 @@ namespace MERENT_API
 
             services.AddScoped<IWalletService, WalletService>();
             services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<IComboOfProductService, ComboOfProductService>();
 
             services.AddHttpContextAccessor();
 

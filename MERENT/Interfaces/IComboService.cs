@@ -1,6 +1,7 @@
 ﻿using Application.ServiceRespones;
 using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.ComboDTOs;
+using Application.ViewModels.ComboProductDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Application.Interfaces
         Task<ServiceResponse<ComboDTO>> GetComboByIdAsync(int id);
         Task<ServiceResponse<List<ComboDTO>>> SearchComboByNameAsync(string name);
         Task<ServiceResponse<ComboDTO>> DeleteComboAsync(int id);
-        Task<ServiceResponse<ComboDTO>> UpdateComboAsync(int id, ComboUpdateDTOs updateDto);
+        Task<ServiceResponse<ComboDTO>> UpdateComboAsync(int id, ComboUpdateDTOs updatedto);
         Task<ServiceResponse<ComboDTO>> CreateComboAsync(ComboCreateDTO combo);
     }
 }

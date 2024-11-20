@@ -19,6 +19,7 @@ namespace Application.Interfaces
         Task<ServiceResponse<ProductOrderDTO>> CreateProductOrderAsync(ProductOrderCreateDTO productOrder);
         Task<ServiceResponse<List<ProductOrderDTO>>> GetProductOrdersByUserIdAsync(int userId);
         Task<ServiceResponse<ProductOrderDTO>> GetLatestProductOrderByUserIdAsync(int userId);
+        Task<ServiceResponse<ProductOrderDTO>> CreateProductOrderForComboAsync(ProductOrderComboCreateDTO productOrderDto);
 
     }
 }

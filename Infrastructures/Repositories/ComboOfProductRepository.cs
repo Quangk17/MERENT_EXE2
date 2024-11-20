@@ -1,7 +1,6 @@
 ﻿using Application.Interfaces;
 using Application.Repositories;
 using Domain.Entites;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace Infrastructures.Repositories
 {
-    public class ProductRepository : GenericRepository<Product>, IProductRepository
+    public class ComboOfProductRepository : GenericRepository<ComboOfProduct>, IComboOfProductRepository
     {
         private readonly AppDbContext _dbContext;
-        public ProductRepository(
+        public ComboOfProductRepository(
             AppDbContext context,
             ICurrentTime timeService,
             IClaimsService claimsService
@@ -22,14 +21,5 @@ namespace Infrastructures.Repositories
         {
             _dbContext = context;
         }
-
-        public async Task<List<Product>> GetAllProductsByIdsAsync(List<int> productIds)
-        {
-            // Truy vấn sản phẩm và tải thêm thuộc tính dẫn hướng nếu cần
-            return await _dbContext.Products
-                .Where(p => productIds.Contains(p.Id)) // Lọc dựa trên ProductID
-                .ToListAsync();
-        }
-
     }
 }

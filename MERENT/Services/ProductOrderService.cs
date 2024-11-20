@@ -248,7 +248,95 @@ namespace Application.Services
             return response;
         }
 
+        public async Task<ServiceResponse<ProductOrderDTO>> CreateProductOrderForComboAsync(ProductOrderComboCreateDTO productOrderDto)
+        {
+            var response = new ServiceResponse<ProductOrderDTO>();
 
+            try
+            {
+                // Tạo ProductOrder
+                var productOrder = _mapper.Map<ProductOrder>(productOrderDto);
+
+                // Lưu ProductOrder vào DB trước để lấy Id
+                await _unitOfWork.ProductOrderRepository.AddAsync(productOrder);
+                await _unitOfWork.SaveChangeAsync();
+
+                // Danh sách ProductOrderDetails
+                var productOrderDetails = new List<ProductOrderDetails>();
+                long totalAmount = 0;
+                long totalPrice = 0;
+
+                // Danh sách tất cả ProductID từ các Combo
+                var productIds = new List<int>();
+
+                foreach (var comboId in productOrderDto.ComboIds)
+                {
+                    var combo = await _unitOfWork.ComboRepository.GetByIdAsync(comboId, x => x.ComboOfProducts);
+
+                    if (combo == null || combo.ComboOfProducts == null)
+                    {
+                        response.Success = false;
+                        response.Message = $"Combo with ID {comboId} not found or has no products.";
+                        return response;
+                    }
+
+                    // Thêm tất cả ProductID từ Combo vào danh sách
+                    productIds.AddRange(combo.ComboOfProducts.Select(cop => cop.ProductID));
+                }
+
+                // Lấy thông tin tất cả sản phẩm từ ProductRepository
+                var products = await _unitOfWork.ProductRepository.GetAllProductsByIdsAsync(productIds);
+
+                // Tạo ProductOrderDetails
+                foreach (var comboId in productOrderDto.ComboIds)
+                {
+                    var combo = await _unitOfWork.ComboRepository.GetByIdAsync(comboId, x => x.ComboOfProducts);
+
+                    foreach (var comboProduct in combo.ComboOfProducts)
+                    {
+                        var product = products.FirstOrDefault(p => p.Id == comboProduct.ProductID);
+                        if (product == null) continue;
+
+                        var unitPrice = product.Price ?? 0;
+                        var quantity = comboProduct.Quantity;
+
+                        productOrderDetails.Add(new ProductOrderDetails
+                        {
+                            OrderId = productOrder.Id,
+                            ProductID = comboProduct.ProductID,
+                            Quantity = quantity,
+                            UnitPrice = unitPrice
+                        });
+
+                        // Tính tổng số lượng và tổng giá
+                        totalAmount += quantity;
+                        totalPrice += quantity * unitPrice;
+                    }
+                }
+
+                // Gán tổng số lượng và giá trị cho ProductOrder
+                productOrder.TotalAmount = totalAmount;
+                productOrder.TotalPrice = totalPrice;
+
+                // Cập nhật ProductOrder với thông tin tổng số lượng và giá
+                _unitOfWork.ProductOrderRepository.Update(productOrder);
+
+                // Lưu ProductOrderDetails vào DB
+                await _unitOfWork.PODetailRepository.AddRangeAsync(productOrderDetails);
+                await _unitOfWork.SaveChangeAsync();
+
+                response.Data = _mapper.Map<ProductOrderDTO>(productOrder);
+                response.Success = true;
+                response.Message = "Product order created successfully with details.";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
 
     }
 }

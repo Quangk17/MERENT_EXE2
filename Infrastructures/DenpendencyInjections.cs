@@ -31,6 +31,7 @@ namespace Infrastructures
 
             services.AddScoped<IWalletRepository, WalletRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<IComboOfProductRepository, ComboOfProductRepository>();
 
 
             // add generic repository
@@ -46,6 +47,7 @@ namespace Infrastructures
 
             services.AddScoped<IGenericRepository<Wallet>, GenericRepository<Wallet>>();
             services.AddScoped<IGenericRepository<Transaction>, GenericRepository<Transaction>>();
+            services.AddScoped<IGenericRepository<ComboOfProduct>, GenericRepository<ComboOfProduct>>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ICurrentTime, CurrentTime>();

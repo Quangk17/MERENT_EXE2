@@ -8,7 +8,6 @@ namespace Application.ViewModels.ProductOrderDetailDTOs
 {
     public class PODetailDTO
     {
-        public int Id { get; set; }
         public int? ProductID { get; set; }
         public int? OrderId { get; set; }
         public Int64? Quantity { get; set; }

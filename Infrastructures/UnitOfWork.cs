@@ -20,6 +20,7 @@ namespace Infrastructures
 
         private readonly IWalletRepository _walletRepository;
         private readonly ITransactionRepository _transactionRepository;
+        private readonly IComboOfProductRepository _comboOfProductRepository;
 
 
         //
@@ -34,7 +35,8 @@ namespace Infrastructures
             IPODetailRepository pODetailRepository,
             IProductOrderRepository productOrderRepository,
             IWalletRepository walletRepository,
-            ITransactionRepository transactionRepository)
+            ITransactionRepository transactionRepository,
+            IComboOfProductRepository comboOfProductRepository)
         {
             _dbContext = dbContext;
             _accountRepository = accountRepository;
@@ -48,6 +50,7 @@ namespace Infrastructures
             _productOrderRepository = productOrderRepository;
             _walletRepository = walletRepository;
             _transactionRepository = transactionRepository;
+            _comboOfProductRepository = comboOfProductRepository;
         }
 
         public IAccountRepository AccountRepository => _accountRepository;
@@ -66,6 +69,7 @@ namespace Infrastructures
         public IPODetailRepository PODetailRepository => _pODetailRepository;
         public IWalletRepository WalletRepository => _walletRepository;
         public ITransactionRepository TransactionRepository => _transactionRepository;
+        public IComboOfProductRepository ComboOfProductRepository => _comboOfProductRepository;
 
         public async Task<int> SaveChangeAsync()
         {

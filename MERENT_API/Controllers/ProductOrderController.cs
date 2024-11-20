@@ -77,6 +77,28 @@ namespace MERENT_API.Controllers
             return Ok(result);
         }
 
+        [HttpPost("create-for-combo")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CreateProductOrderForCombo([FromBody] ProductOrderComboCreateDTO createDto)
+        {
+            if (createDto == null)
+            {
+                return BadRequest("Invalid request body.");
+            }
+
+            var result = await _productOrderService.CreateProductOrderForComboAsync(createDto);
+
+            if (!result.Success)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+
         [HttpPut("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

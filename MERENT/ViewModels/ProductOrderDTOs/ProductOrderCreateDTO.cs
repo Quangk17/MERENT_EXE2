@@ -16,4 +16,14 @@ namespace Application.ViewModels.ProductOrderDTOs
         public int? UserID { get; set; }
         public OrderStatusTypeEnums? StatusOrder { get; set; }
     }
+
+    public class ProductOrderComboCreateDTO
+    {
+        public string? Description { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public int? UserID { get; set; }
+        public OrderStatusTypeEnums? StatusOrder { get; set; }
+        public List<int> ComboIds { get; set; } = new(); // Danh sách ID của các combo
+    }
+
 }

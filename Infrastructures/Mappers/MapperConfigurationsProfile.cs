@@ -1,6 +1,7 @@
 ﻿using Application.Commons;
 using Application.ViewModels.AccountDTOs;
 using Application.ViewModels.ComboDTOs;
+using Application.ViewModels.ComboProductDTOs;
 using Application.ViewModels.ProductDTOs;
 using Application.ViewModels.ProductOrderDetailDTOs;
 using Application.ViewModels.ProductOrderDTOs;
@@ -39,6 +40,9 @@ namespace Infrastructures.Mappers
             CreateMap<Transaction, TransactionDTO>().ReverseMap();
             CreateMap<Transaction, TransactionResponsesDTO>().ReverseMap();
             CreateMap<User, UserDetailsModel>().ReverseMap();
+            CreateMap<ComboOfProduct, ComboOfProductDTO>().ReverseMap();
+            CreateMap<ComboOfProduct, ComboWithProductsDTO>().ReverseMap();
+
             //create
             CreateMap<User, AccountAddDTO>().ReverseMap();
             CreateMap<Product, ProductCreateDTO>().ReverseMap();
@@ -52,6 +56,9 @@ namespace Infrastructures.Mappers
 
             CreateMap<Wallet, WalletCreateDTO>().ReverseMap();
             CreateMap<Transaction, TransactionCreateDTO>().ReverseMap();
+
+            CreateMap<ComboOfProduct, ComboOfProductCreateDTO>().ReverseMap();
+            CreateMap<ProductOrder, ProductOrderComboCreateDTO>().ReverseMap();
             //update
             CreateMap<User, AccountUpdateDTO>().ReverseMap();
             CreateMap<Product, ProductUpdateDTO>().ReverseMap();
@@ -67,6 +74,7 @@ namespace Infrastructures.Mappers
             CreateMap<ProductOrderDetails, PODetailUpdateDTO>().ReverseMap();
 
             CreateMap<Wallet, WalletUpdateDTO>().ReverseMap();
+            CreateMap<ComboOfProduct, ComboOfProductUpdateDTO>().ReverseMap();
             //Pagination
             CreateMap(typeof(Pagination<>), typeof(Pagination<>));
         }

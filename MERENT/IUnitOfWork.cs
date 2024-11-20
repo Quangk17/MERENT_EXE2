@@ -22,6 +22,8 @@ namespace Application
         public IWalletRepository WalletRepository { get; }
         public ITransactionRepository TransactionRepository { get; }
 
+        public IComboOfProductRepository ComboOfProductRepository { get; }
+
         public Task<int> SaveChangeAsync();
     }
 }
