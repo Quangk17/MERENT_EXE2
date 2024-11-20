@@ -14,17 +14,20 @@ using Net.payOS;
 using Net.payOS.Types;
 using Domain.Enums;
 using Domain.Entites;
+using AutoMapper;
 
 namespace Application.Services
 {
     public class PayOSService : IPayOSService
     {
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<PayOSService> _logger;
         private readonly PayOS _payOS;
+        private readonly IMapper _mapper;
 
 
-        public PayOSService(ILogger<PayOSService> logger , IUnitOfWork unitOfWork)
+        public PayOSService(ILogger<PayOSService> logger , IUnitOfWork unitOfWork, IMapper mapper)
         {
             IConfiguration configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
@@ -35,6 +38,7 @@ namespace Application.Services
             _payOS = new PayOS(ClientId, ApiKey, ChecksumKey);
             _logger = logger;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public async Task<string> CreateLink(int depositMoney)
@@ -111,7 +115,11 @@ namespace Application.Services
         {
             transaction.Status = TransactionStatusEnums.SUCCESS.ToString();
             //Plus money to user wallet
-            var wallet = await _unitOfWork.WalletRepository.GetListWalletByUserId(transaction.WalletId);
+            var wallet = await _unitOfWork.WalletRepository.GetByIdAsync(transaction.WalletId);
+            wallet.Cash += transaction.TotalAmount;
+
+            var updatedWallet = _mapper.Map(wallet, wallet);
+            _unitOfWork.WalletRepository.Update(updatedWallet);
             await _unitOfWork.SaveChangeAsync();
         }
 
@@ -181,7 +189,7 @@ namespace Application.Services
 
         public class PayOSTransaction
         {
- 
+            public int OrderCode { get; set; }
             public decimal Amount { get; set; }
             public string Description { get; set; }
             public string AccountNumber { get; set; }
