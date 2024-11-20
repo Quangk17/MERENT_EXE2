@@ -39,7 +39,7 @@ namespace Infrastructures.Repositories
                 PaymentType = TransactionTypeEnums.DEPOSIT.ToString(),
                 TotalAmount = amount,
                 Description = "Deposit money with amount: " + amount + ", Thanh toán qua: " + paymentMethod,
-
+                CreationDate = DateTime.UtcNow,
                 Status = TransactionStatusEnums.PENDING.ToString()
             };
             //add transaction to database
@@ -116,6 +116,7 @@ namespace Infrastructures.Repositories
 
             return latestTransaction;
         }
+
         public async Task<int?> GetWalletIdByUserIdAsync(int userId)
         {
             // Lấy ví đầu tiên của user dựa trên userId
