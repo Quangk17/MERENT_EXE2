@@ -181,7 +181,7 @@ namespace Application.Services
 
         public class PayOSTransaction
         {
-            public int OrderCode { get; set; }
+ 
             public decimal Amount { get; set; }
             public string Description { get; set; }
             public string AccountNumber { get; set; }
