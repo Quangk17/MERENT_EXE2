@@ -100,6 +100,31 @@ namespace Infrastructures.Repositories
 
             return wallets;
         }
+
+        public async Task<Transaction?> GetLatestTransactionByWalletIdAsync(int walletId)
+        {
+            if (walletId <= 0)
+            {
+                throw new ArgumentException("WalletId must be greater than 0.", nameof(walletId));
+            }
+
+            // Truy vấn giao dịch mới nhất từ walletId
+            var latestTransaction = await _dbContext.Transactions
+                .Where(t => t.WalletId == walletId)
+                .OrderByDescending(t => t.CreationDate) // Sắp xếp giảm dần theo thời gian tạo
+                .FirstOrDefaultAsync();
+
+            return latestTransaction;
+        }
+        public async Task<int?> GetWalletIdByUserIdAsync(int userId)
+        {
+            // Lấy ví đầu tiên của user dựa trên userId
+            var wallet = await _dbContext.Wallets
+                .Where(w => w.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            return wallet?.Id; // Trả về walletId nếu ví tồn tại, ngược lại trả về null
+        }
     }
 }
 

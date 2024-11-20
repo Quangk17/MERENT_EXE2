@@ -21,5 +21,6 @@ namespace Application.Interfaces
         Task<Transaction> Deposit(int userId, long amount, string? paymentMethod);
         Task<ServiceResponse<WalletDTO>> RefundToWalletAsync(int userId, long amount);
 
+        Task<int?> GetWalletIdForUserAsync(int userId);
     }
 }

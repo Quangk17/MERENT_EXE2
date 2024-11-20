@@ -10,7 +10,7 @@ namespace Application.Interfaces
 {
     public interface IPayOSService
     {
-        Task<string> CreateLink(int depositMoney);
+        Task<string> CreateLink(int depositMoney, int walletId);
         Task<WebhookResponse> ReturnWebhook2(WebhookType webhookBody);
     }
 }

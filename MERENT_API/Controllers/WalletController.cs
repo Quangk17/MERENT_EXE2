@@ -192,7 +192,14 @@ namespace MERENT_API.Controllers
                 }
                 else
                 {
-                    var url = await _payOSService.CreateLink(depositRequest.Amount);
+                    var walletId = await _walletService.GetWalletIdForUserAsync(userId);
+
+                    if (!walletId.HasValue)
+                    {
+                        throw new InvalidOperationException("Wallet ID is null. User does not have a wallet.");
+                    }
+
+                    var url = await _payOSService.CreateLink(depositRequest.Amount, walletId.Value);
 
                     return Ok(ServiceResponse<string>.Succeed(url, "Payment to deposit!"));
                 }

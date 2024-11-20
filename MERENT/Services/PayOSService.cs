@@ -41,12 +41,22 @@ namespace Application.Services
             _mapper = mapper;
         }
 
-        public async Task<string> CreateLink(int depositMoney)
+        public async Task<string> CreateLink(int depositMoney, int walletId)
         {
             var domain = "https://merent-fe.vercel.app/#/profile";
 
+            var latestTransaction = await _unitOfWork.WalletRepository.GetLatestTransactionByWalletIdAsync(walletId);
+
+            if (latestTransaction == null)
+            {
+                throw new InvalidOperationException($"No transaction found for walletId: {walletId}");
+            }
+
+            int transactionId = latestTransaction.Id;
+            //--------------------------------
+
             var paymentLinkRequest = new PaymentData(
-                orderCode: int.Parse(DateTimeOffset.Now.ToString("ffffff")),
+                orderCode: transactionId,
                 amount: depositMoney,
                 description: "Nạp tiền: " + depositMoney,
                 items: [new("Nạp tiền " + depositMoney, 1, depositMoney)],

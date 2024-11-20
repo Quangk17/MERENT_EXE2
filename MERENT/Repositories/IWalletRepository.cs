@@ -14,6 +14,8 @@ namespace Application.Repositories
         Task<Transaction> DepositMoney(int userId, WalletTypeEnums walletType, long amount, string? paymentMethod);
         Task<Wallet> GetWalletByUserIdAndType(int userId, WalletTypeEnums walletType);
         Task<List<Wallet>> GetListWalletByUserId(int userId);
+        Task<Transaction?> GetLatestTransactionByWalletIdAsync(int walletId);
 
+        Task<int?> GetWalletIdByUserIdAsync(int userId);
     }
 }

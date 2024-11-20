@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Application.Repositories;
 using Application.ServiceRespones;
 using Application.ViewModels.WalletDTOs;
 using AutoMapper;
@@ -251,5 +252,22 @@ namespace Application.Services
             return response;
         }
 
+        public async Task<int?> GetWalletIdForUserAsync(int userId)
+        {
+            if (userId <= 0)
+            {
+                throw new ArgumentException("UserId must be greater than 0.", nameof(userId));
+            }
+
+            // Lấy walletId từ repository
+            var walletId = await _unitOfWork.WalletRepository.GetWalletIdByUserIdAsync(userId);
+
+            if (walletId == null)
+            {
+                throw new InvalidOperationException($"No wallet found for userId: {userId}");
+            }
+
+            return walletId;
+        }
     }
 }
