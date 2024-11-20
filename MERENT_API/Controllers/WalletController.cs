@@ -210,20 +210,29 @@ namespace MERENT_API.Controllers
         {
             try
             {
-                // Gọi service để xử lý webhook
-                await _payOSService.ReturnWebhook2(webhookBody);
+                // Gọi service để xử lý webhook và nhận kết quả trả về
+                var result = await _payOSService.ReturnWebhook2(webhookBody);
 
-                // Log message để debug nếu cần
-                _logger.LogInformation("Webhook processed successfully");
+                // Trả về toàn bộ thông tin từ service xử lý webhook
+                return Ok(new
+                {
+                    Success = result.Success,
+                    Note = result.Note,
+                    WebhookData = webhookBody // Trả thêm toàn bộ dữ liệu webhook nhận được
+                });
             }
             catch (Exception ex)
             {
-                // Log lỗi nhưng vẫn trả về 200
+                // Log lỗi và vẫn trả về 200 với thông tin lỗi
                 _logger.LogError(ex, "Error processing webhook");
+                return Ok(new
+                {
+                    Success = false,
+                    Note = "An error occurred while processing the webhook.",
+                    Error = ex.Message,
+                    WebhookData = webhookBody
+                });
             }
-
-            // Always return HTTP 200
-            return Ok(new { Message = "Webhook received" });
         }
 
 
