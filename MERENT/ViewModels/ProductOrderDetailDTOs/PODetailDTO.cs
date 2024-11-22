@@ -12,5 +12,7 @@ namespace Application.ViewModels.ProductOrderDetailDTOs
         public int? OrderId { get; set; }
         public Int64? Quantity { get; set; }
         public Int64? UnitPrice { get; set; }
+        public string? ProductName { get; set; } // Thêm ProductName
     }
+
 }

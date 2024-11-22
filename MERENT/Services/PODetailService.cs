@@ -109,44 +109,66 @@ namespace Application.Services
         public async Task<ServiceResponse<List<PODetailDTO>>> GetPODetailsAsync()
         {
             var response = new ServiceResponse<List<PODetailDTO>>();
-            var poDetails = await _unitOfWork.PODetailRepository.GetAllAsync();
-            var poDetailDTOs = poDetails.Select(poDetail => _mapper.Map<PODetailDTO>(poDetail)).ToList();
 
-            if (poDetailDTOs.Any())
+            try
             {
-                response.Data = poDetailDTOs;
-                response.Success = true;
-                response.Message = $"Found {poDetailDTOs.Count} PODetails.";
+                // Lấy tất cả ProductOrderDetails bao gồm Product
+                var poDetails = await _unitOfWork.PODetailRepository.GetAllPODetailsAsync(
+                    include: po => po.Product // Bao gồm Product để lấy thông tin Name
+                );
+
+                // Ánh xạ sang DTO và bao gồm ProductName
+                var poDetailDTOs = poDetails.Select(poDetail => new PODetailDTO
+                {
+                    ProductID = poDetail.ProductID,
+                    OrderId = poDetail.OrderId,
+                    Quantity = poDetail.Quantity,
+                    UnitPrice = poDetail.UnitPrice,
+                    ProductName = poDetail.Product?.Name // Lấy tên sản phẩm
+                }).ToList();
+
+                if (poDetailDTOs.Any())
+                {
+                    response.Data = poDetailDTOs;
+                    response.Success = true;
+                    response.Message = $"Found {poDetailDTOs.Count} PODetails.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "No PODetails found.";
+                }
             }
-            else
+            catch (Exception ex)
             {
                 response.Success = false;
-                response.Message = "No PODetails found.";
+                response.ErrorMessages = new List<string> { ex.Message };
             }
 
             return response;
         }
 
-       /* public async Task<ServiceResponse<List<PODetailDTO>>> SearchPODetailByNameAsync(string name)
-        {
-            var response = new ServiceResponse<List<PODetailDTO>>();
-            var poDetails = await _unitOfWork.PODetailRepository.SearchByNameAsync(name);
-            var poDetailDTOs = poDetails.Select(poDetail => _mapper.Map<PODetailDTO>(poDetail)).ToList();
 
-            if (poDetailDTOs.Any())
-            {
-                response.Data = poDetailDTOs;
-                response.Success = true;
-                response.Message = $"Found {poDetailDTOs.Count} PODetails matching '{name}'.";
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"No PODetails found matching '{name}'.";
-            }
+        /* public async Task<ServiceResponse<List<PODetailDTO>>> SearchPODetailByNameAsync(string name)
+         {
+             var response = new ServiceResponse<List<PODetailDTO>>();
+             var poDetails = await _unitOfWork.PODetailRepository.SearchByNameAsync(name);
+             var poDetailDTOs = poDetails.Select(poDetail => _mapper.Map<PODetailDTO>(poDetail)).ToList();
 
-            return response;
-        }*/
+             if (poDetailDTOs.Any())
+             {
+                 response.Data = poDetailDTOs;
+                 response.Success = true;
+                 response.Message = $"Found {poDetailDTOs.Count} PODetails matching '{name}'.";
+             }
+             else
+             {
+                 response.Success = false;
+                 response.Message = $"No PODetails found matching '{name}'.";
+             }
+
+             return response;
+         }*/
 
         public async Task<ServiceResponse<PODetailDTO>> UpdatePODetailAsync(int id, PODetailUpdateDTO updateDto)
         {
