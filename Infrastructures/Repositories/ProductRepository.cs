@@ -35,5 +35,11 @@ namespace Infrastructures.Repositories
         {
             return _dbContext.Products.AsQueryable();
         }
+
+        public async Task<List<Product>> GetAllProductsByIds2Async(List<int> productIds)
+        {
+            return await _dbSet.Where(product => productIds.Contains(product.Id)).ToListAsync();
+        }
+
     }
 }

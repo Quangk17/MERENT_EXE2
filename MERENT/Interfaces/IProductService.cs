@@ -14,5 +14,7 @@ namespace Application.Interfaces
         Task<ServiceResponse<ProductDTO>> UpdateProductAsync(int id, ProductUpdateDTO updateDto);
         Task<ServiceResponse<ProductDTO>> CreateProductAsync(ProductCreateDTO product);
         Task<ServiceResponse<ProductDTO>> UploadImageProductAsync(int id, UploadImageDTO uploadImageDTO);
+        Task<ServiceResponse<List<ProductDTO>>> GetLatestProductsAsync(int count = 4);
+        Task<ServiceResponse<List<ProductDTO>>> GetMostRentedProductsAsync(int count = 4);
     }
 }

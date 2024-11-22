@@ -278,5 +278,98 @@ namespace Application.Services
 
             return reponse;
         }
+
+        public async Task<ServiceResponse<List<ProductDTO>>> GetLatestProductsAsync(int count = 4)
+        {
+            var response = new ServiceResponse<List<ProductDTO>>();
+
+            try
+            {
+                // Lấy danh sách sản phẩm theo ngày tạo, giới hạn `count` sản phẩm
+                var products = await _unitOfWork.ProductRepository.GetAllAsync();
+                var latestProducts = products
+                    .OrderByDescending(product => product.CreationDate) // Sắp xếp theo ngày tạo giảm dần
+                    .Take(count) // Lấy tối đa `count` sản phẩm
+                    .ToList();
+
+                // Ánh xạ sang DTO
+                var productDTOs = latestProducts.Select(product => _mapper.Map<ProductDTO>(product)).ToList();
+
+                if (productDTOs.Any())
+                {
+                    response.Data = productDTOs;
+                    response.Success = true;
+                    response.Message = $"Found {productDTOs.Count} latest products.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "No products found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+        public async Task<ServiceResponse<List<ProductDTO>>> GetMostRentedProductsAsync(int count = 4)
+        {
+            var response = new ServiceResponse<List<ProductDTO>>();
+
+            try
+            {
+                // Lấy tất cả ProductOrderDetails
+                var orderDetails = await _unitOfWork.PODetailRepository.GetAllAsync();
+
+                // Đếm số lần xuất hiện của từng ProductID
+                var productCounts = orderDetails
+                    .GroupBy(detail => detail.ProductID)
+                    .Select(group => new
+                    {
+                        ProductID = group.Key,
+                        RentCount = group.Sum(detail => detail.Quantity ?? 0) // Tổng số lượng thuê
+                    })
+                    .OrderByDescending(x => x.RentCount) // Sắp xếp giảm dần theo số lần thuê
+                    .Take(count) // Lấy tối đa `count` sản phẩm
+                    .ToList();
+
+                // Lấy danh sách ProductID, loại bỏ null
+                var productIds = productCounts
+                    .Select(x => x.ProductID)
+                    .Where(id => id.HasValue) // Loại bỏ null
+                    .Select(id => id.Value)  // Chuyển từ int? sang int
+                    .ToList();
+
+                // Lấy thông tin chi tiết của các sản phẩm
+                var products = await _unitOfWork.ProductRepository.GetAllProductsByIdsAsync(productIds);
+
+                // Ánh xạ sang DTO
+                var productDTOs = products.Select(product => _mapper.Map<ProductDTO>(product)).ToList();
+
+                if (productDTOs.Any())
+                {
+                    response.Data = productDTOs;
+                    response.Success = true;
+                    response.Message = $"Found {productDTOs.Count} most rented products.";
+                }
+                else
+                {
+                    response.Success = false;
+                    response.Message = "No products found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
     }
 }

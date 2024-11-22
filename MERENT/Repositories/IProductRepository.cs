@@ -11,5 +11,6 @@ namespace Application.Repositories
     {
         Task<List<Product>> GetAllProductsByIdsAsync(List<int> productIds);
         IQueryable<Product> Query();
+        Task<List<Product>> GetAllProductsByIds2Async(List<int> productIds);
     }
 }

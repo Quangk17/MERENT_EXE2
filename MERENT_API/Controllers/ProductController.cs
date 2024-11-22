@@ -57,6 +57,37 @@ namespace MERENT_API.Controllers
             });
         }
 
+        [HttpGet("list-product-latest")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetLatestProducts()
+        {
+            var result = await _productService.GetLatestProductsAsync();
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+        [HttpGet("most-rented")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetMostRentedProducts()
+        {
+            var result = await _productService.GetMostRentedProductsAsync();
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+
+
 
         [HttpGet("search-by-name")]
         [ProducesResponseType(StatusCodes.Status200OK)]
