@@ -9,5 +9,7 @@ namespace Application.Repositories
 {
     public interface IComboOfProductRepository: IGenericRepository<ComboOfProduct>
     {
+        Task<List<Combo>> GetAllCombosWithProductsAsync();
+        Task<Combo?> GetComboWithProductsByIdAsync(int comboId);
     }
 }

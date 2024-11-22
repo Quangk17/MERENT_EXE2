@@ -16,7 +16,7 @@ namespace Application.Interfaces
         Task<ServiceResponse<WalletDTO>> DeleteWalletAsync(int id);
         Task<ServiceResponse<WalletDTO>> UpdateWalletAsync(int id, WalletUpdateDTO updateDto);
         Task<ServiceResponse<WalletDTO>> CreateWalletAsync(WalletCreateDTO wallet);
-
+        Task<ServiceResponse<WalletDTO>> CreateWalletForUserAsync(WalletCreateDTO wallet);
         Task<List<WalletDTO>> GetWalletByUserId(int userId);
         Task<Transaction> Deposit(int userId, long amount, string? paymentMethod);
         Task<ServiceResponse<WalletDTO>> RefundToWalletAsync(int userId, long amount);

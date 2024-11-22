@@ -56,8 +56,19 @@ namespace MERENT_API.Controllers
             }
 
             return NotFound(result.Message);
-        }
 
+        }
+        [HttpPut("fix-invalid-status")]
+        public async Task<IActionResult> FixInvalidStatusOrder()
+        {
+            var result = await _productOrderService.FixInvalidStatusOrderAsync();
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]

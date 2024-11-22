@@ -18,5 +18,7 @@ namespace Application.Interfaces
         //Task<ServiceResponse<ComboDTO>> UpdateComboAsync(int id1, int id2 ,ComboOfProductUpdateDTO updateDto);
         Task<ServiceResponse<ComboOfProductDTO>> CreateComboAsync(ComboOfProductCreateDTO combo);
         Task<ServiceResponse<List<ComboWithProductsDTO>>> GetCombosWithProductsAsync();
+        Task<ServiceResponse<List<ComboDetailsDTO>>> GetCombosWithProductsDetailsAsync();
+        Task<ServiceResponse<ComboDetailsDTO>> GetComboWithProductsDetailsByIdAsync(int comboId);
     }
 }

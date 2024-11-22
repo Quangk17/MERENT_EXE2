@@ -5,6 +5,7 @@ using Application.ViewModels.WalletDTOs;
 using AutoMapper;
 using Domain.Entites;
 using Domain.Enums;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -269,5 +270,47 @@ namespace Application.Services
 
             return walletId;
         }
+
+        public async Task<ServiceResponse<WalletDTO>> CreateWalletForUserAsync(WalletCreateDTO wallet)
+        {
+            var response = new ServiceResponse<WalletDTO>();
+
+            try
+            {
+                // Kiểm tra userId hợp lệ
+                var user = await _unitOfWork.AccountRepository.GetByIdAsync(wallet.UserId);
+                if (user == null)
+                {
+                    response.Success = false;
+                    response.Message = "User not found.";
+                    return response;
+                }
+
+                // Tạo ví mới
+                var newWallet = new Wallet
+                {
+                    UserId = wallet.UserId,
+                    Cash = wallet.Cash ?? 0,
+                    WalletType = wallet.WalletType
+                };
+
+                await _unitOfWork.WalletRepository.AddAsync(newWallet);
+                await _unitOfWork.SaveChangeAsync();
+
+                // Mapping Wallet sang DTO
+                response.Data = _mapper.Map<WalletDTO>(newWallet);
+                response.Success = true;
+                response.Message = "Wallet created successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error: {ex.Message}";
+            }
+
+            return response;
+        }
+
+
     }
 }

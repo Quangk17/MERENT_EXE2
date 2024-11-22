@@ -3,6 +3,7 @@ using Application.ServiceRespones;
 using Application.ViewModels.ProductOrderDTOs;
 using AutoMapper;
 using Domain.Entites;
+using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -110,6 +111,13 @@ namespace Application.Services
         {
             var response = new ServiceResponse<List<ProductOrderDTO>>();
             var orders = await _unitOfWork.ProductOrderRepository.GetAllAsync();
+
+            // Debug thử danh sách orders để kiểm tra giá trị của StatusOrder
+            foreach (var order in orders)
+            {
+                Console.WriteLine($"Order ID: {order.Id}, StatusOrder: {order.StatusOrder}");
+            }
+
             var orderDTOs = orders.Select(order => _mapper.Map<ProductOrderDTO>(order)).ToList();
 
             if (orderDTOs.Any())
@@ -127,26 +135,27 @@ namespace Application.Services
             return response;
         }
 
-       /* public async Task<ServiceResponse<List<ProductOrderDTO>>> SearchProductOrderByNameAsync(string name)
-        {
-            var response = new ServiceResponse<List<ProductOrderDTO>>();
-            var orders = await _unitOfWork.ProductOrderRepository.SearchByNameAsync(name);
-            var orderDTOs = orders.Select(order => _mapper.Map<ProductOrderDTO>(order)).ToList();
 
-            if (orderDTOs.Any())
-            {
-                response.Data = orderDTOs;
-                response.Success = true;
-                response.Message = $"Found {orderDTOs.Count} product orders matching '{name}'.";
-            }
-            else
-            {
-                response.Success = false;
-                response.Message = $"No product orders found matching '{name}'.";
-            }
+        /* public async Task<ServiceResponse<List<ProductOrderDTO>>> SearchProductOrderByNameAsync(string name)
+         {
+             var response = new ServiceResponse<List<ProductOrderDTO>>();
+             var orders = await _unitOfWork.ProductOrderRepository.SearchByNameAsync(name);
+             var orderDTOs = orders.Select(order => _mapper.Map<ProductOrderDTO>(order)).ToList();
 
-            return response;
-        }*/
+             if (orderDTOs.Any())
+             {
+                 response.Data = orderDTOs;
+                 response.Success = true;
+                 response.Message = $"Found {orderDTOs.Count} product orders matching '{name}'.";
+             }
+             else
+             {
+                 response.Success = false;
+                 response.Message = $"No product orders found matching '{name}'.";
+             }
+
+             return response;
+         }*/
 
         public async Task<ServiceResponse<ProductOrderDTO>> UpdateProductOrderAsync(int id, ProductOrderUpdateDTO updateDto)
         {
@@ -257,6 +266,9 @@ namespace Application.Services
                 // Tạo ProductOrder
                 var productOrder = _mapper.Map<ProductOrder>(productOrderDto);
 
+                // Gán giá trị mặc định cho StatusOrder
+                productOrder.StatusOrder = OrderStatusTypeEnums.Pending.ToString();
+
                 // Lưu ProductOrder vào DB trước để lấy Id
                 await _unitOfWork.ProductOrderRepository.AddAsync(productOrder);
                 await _unitOfWork.SaveChangeAsync();
@@ -337,6 +349,87 @@ namespace Application.Services
 
             return response;
         }
+
+        public async Task<ServiceResponse<int>> DeleteInvalidProductOrdersAsync()
+        {
+            var response = new ServiceResponse<int>();
+
+            try
+            {
+                // Lấy tất cả ProductOrder có StatusOrder không hợp lệ
+                var invalidOrders = await _unitOfWork.ProductOrderRepository.GetAllAsync();
+
+                var ordersToDelete = invalidOrders
+                    .Where(order => !Enum.TryParse<OrderStatusTypeEnums>(order.StatusOrder, true, out _))
+                    .ToList();
+
+                if (ordersToDelete.Any())
+                {
+                    // Xóa các ProductOrder bị lỗi
+                    _unitOfWork.ProductOrderRepository.SoftRemoveRange(ordersToDelete);
+                    var changes = await _unitOfWork.SaveChangeAsync();
+
+                    response.Data = changes;
+                    response.Success = true;
+                    response.Message = $"{ordersToDelete.Count} invalid ProductOrder(s) deleted.";
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "No invalid ProductOrder(s) found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+        public async Task<ServiceResponse<int>> FixInvalidStatusOrderAsync()
+        {
+            var response = new ServiceResponse<int>();
+
+            try
+            {
+                // Lấy tất cả ProductOrder mà không kiểm tra IsDeleted
+                var orders = await _unitOfWork.ProductOrderRepository.GetAllAsync();
+
+                // Lọc các ProductOrder có StatusOrder không hợp lệ
+                var invalidOrders = orders.Where(order => !Enum.TryParse<OrderStatusTypeEnums>(order.StatusOrder, true, out _)).ToList();
+
+                if (invalidOrders.Any())
+                {
+                    // Gán giá trị mặc định cho các bản ghi lỗi
+                    foreach (var order in invalidOrders)
+                    {
+                        order.StatusOrder = OrderStatusTypeEnums.Pending.ToString();
+                    }
+
+                    // Cập nhật lại DB
+                    _unitOfWork.ProductOrderRepository.UpdateRange(invalidOrders);
+                    var changes = await _unitOfWork.SaveChangeAsync();
+
+                    response.Data = changes;
+                    response.Success = true;
+                    response.Message = $"{invalidOrders.Count} invalid ProductOrder(s) fixed.";
+                }
+                else
+                {
+                    response.Success = true;
+                    response.Message = "No invalid ProductOrder(s) found.";
+                }
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
 
     }
 }

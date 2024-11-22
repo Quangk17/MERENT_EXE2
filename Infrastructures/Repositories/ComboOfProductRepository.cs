@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Repositories;
 using Domain.Entites;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,5 +22,22 @@ namespace Infrastructures.Repositories
         {
             _dbContext = context;
         }
+
+        public async Task<List<Combo>> GetAllCombosWithProductsAsync()
+        {
+            return await _dbContext.Combos
+                .Include(c => c.ComboOfProducts)
+                .ThenInclude(cop => cop.Product)
+                .ToListAsync();
+        }
+
+        public async Task<Combo?> GetComboWithProductsByIdAsync(int comboId)
+        {
+            return await _dbContext.Combos
+                .Include(c => c.ComboOfProducts)
+                .ThenInclude(cop => cop.Product)
+                .FirstOrDefaultAsync(c => c.Id == comboId);
+        }
+
     }
 }

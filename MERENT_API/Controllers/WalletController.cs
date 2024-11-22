@@ -3,6 +3,7 @@ using Application.ServiceRespones;
 using Application.Services;
 using Application.ViewModels.WalletDTOs;
 using AutoMapper;
+using Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Net.payOS.Types;
 using Newtonsoft.Json;
@@ -243,6 +244,70 @@ namespace MERENT_API.Controllers
             }
         }
 
+        [HttpPost("check-or-create-wallet/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> CheckOrCreateWallet(int userId)
+        {
+            try
+            {
+                // Kiểm tra xem userId có hợp lệ không
+                if (userId <= 0)
+                {
+                    return BadRequest("Invalid user ID.");
+                }
+
+                // Lấy danh sách các ví của user
+                var wallets = await _walletService.GetWalletByUserId(userId);
+
+                // Kiểm tra xem đã có ví PERSONAL chưa
+                var personalWallet = wallets?.FirstOrDefault(w => w.WalletType == WalletTypeEnums.PERSONAL.ToString());
+
+                if (personalWallet != null)
+                {
+                    // Nếu đã có ví PERSONAL, trả về kết quả
+                    return Ok(new
+                    {
+                        Success = true,
+                        Message = "User already has a PERSONAL wallet.",
+                        Wallet = personalWallet
+                    });
+                }
+
+                // Nếu chưa có, tạo ví mới với loại PERSONAL
+                var createDto = new WalletCreateDTO
+                {
+                    UserId = userId,
+                    Cash = 0,
+                    WalletType = WalletTypeEnums.PERSONAL.ToString()
+                };
+
+                var result = await _walletService.CreateWalletForUserAsync(createDto);
+
+                if (!result.Success)
+                {
+                    return BadRequest(result);
+                }
+
+                // Trả về kết quả sau khi tạo ví
+                return Ok(new
+                {
+                    Success = true,
+                    Message = "PERSONAL wallet created successfully.",
+                    Wallet = result.Data
+                });
+            }
+            catch (Exception ex)
+            {
+                // Trả về lỗi nếu có exception xảy ra
+                return BadRequest(new
+                {
+                    Success = false,
+                    Message = ex.Message
+                });
+            }
+        }
 
 
     }

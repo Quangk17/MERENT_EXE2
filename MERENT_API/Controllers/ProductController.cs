@@ -23,15 +23,61 @@ namespace MERENT_API.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            // Kiểm tra ID hợp lệ
+            if (id <= 0)
+            {
+                return BadRequest("Invalid product ID.");
+            }
 
-        [HttpGet("{name}")]
+            // Gọi service để lấy thông tin sản phẩm
+            var result = await _productService.GetProductByIdAsync(id);
+
+            // Kiểm tra nếu không tìm thấy sản phẩm
+            if (!result.Success)
+            {
+                return NotFound(new
+                {
+                    success = result.Success,
+                    message = result.Message
+                });
+            }
+
+            // Trả về dữ liệu sản phẩm nếu tìm thấy
+            return Ok(new
+            {
+                success = result.Success,
+                data = result.Data,
+                message = result.Message
+            });
+        }
+
+
+        [HttpGet("search-by-name")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> SearchProductByName(string name)
+        public async Task<IActionResult> SearchProductByName([FromQuery] string name)
         {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest("Name parameter cannot be empty.");
+            }
+
             var result = await _productService.SearchProductByNameAsync(name);
+
+            if (!result.Success)
+            {
+                return BadRequest(result.Message);
+            }
+
             return Ok(result);
         }
+
 
         //[Authorize (Roles = "Manager")]
         [HttpPost]

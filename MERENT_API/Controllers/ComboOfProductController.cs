@@ -22,12 +22,25 @@ namespace MERENT_API.Controllers
             return result.Success ? Ok(result) : BadRequest(result);
         }
 
-        [HttpGet("ByCombo")]
+        [HttpGet("All-Product-ByCombo")]
         public async Task<IActionResult> GetAllByCombo()
         {
-            var result = await _service.GetCombosWithProductsAsync();
+            var result = await _service.GetCombosWithProductsDetailsAsync();
             return result.Success ? Ok(result) : BadRequest(result);
         }
+        [HttpGet("ByCombo/{id:int}")]
+        public async Task<IActionResult> GetComboDetailsById(int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest("Invalid combo ID.");
+            }
+
+            var result = await _service.GetComboWithProductsDetailsByIdAsync(id);
+
+            return result.Success ? Ok(result) : NotFound(result);
+        }
+
 
 
         [HttpGet("{id:int}")]

@@ -1,9 +1,11 @@
 ﻿using Application.Interfaces;
+using Application.Repositories;
 using Application.ServiceRespones;
 using Application.ViewModels.ProductDTOs;
 using Application.ViewModels.ServiceDTOs;
 using AutoMapper;
 using Domain.Entites;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -90,10 +92,39 @@ namespace Application.Services
             return _response;
         }
 
-        public Task<ServiceResponse<ProductDTO>> GetProductByIdAsync(int id)
+        public async Task<ServiceResponse<ProductDTO>> GetProductByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            var response = new ServiceResponse<ProductDTO>();
+
+            try
+            {
+                // Truy vấn sản phẩm từ cơ sở dữ liệu
+                var product = await _unitOfWork.ProductRepository.Query()
+                    .FirstOrDefaultAsync(p => p.Id == id);
+
+                // Kiểm tra nếu không tìm thấy sản phẩm
+                if (product == null)
+                {
+                    response.Success = false;
+                    response.Message = "Product not found.";
+                    return response;
+                }
+
+                // Mapping từ Product Entity sang ProductDTO
+                response.Data = _mapper.Map<ProductDTO>(product);
+                response.Success = true;
+                response.Message = "Product retrieved successfully.";
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi
+                response.Success = false;
+                response.Message = $"Error: {ex.Message}";
+            }
+
+            return response;
         }
+
 
         public async Task<ServiceResponse<List<ProductDTO>>> GetProductsAsync()
         {
@@ -133,9 +164,25 @@ namespace Application.Services
 
         }
 
-        public Task<ServiceResponse<List<ProductDTO>>> SearchProductByNameAsync(string name)
+        public async Task<ServiceResponse<List<ProductDTO>>> SearchProductByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            var response = new ServiceResponse<List<ProductDTO>>();
+            try
+            {
+                var products = await _unitOfWork.ProductRepository.Query()
+                    .Where(p => !string.IsNullOrEmpty(p.Name) && p.Name.ToLower().Contains(name.ToLower()))
+                    .ToListAsync();
+
+                response.Data = _mapper.Map<List<ProductDTO>>(products);
+                response.Success = true;
+                response.Message = "Products retrieved successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.Message = $"Error: {ex.Message}";
+            }
+            return response;
         }
 
         public async Task<ServiceResponse<ProductDTO>> UpdateProductAsync(int id, ProductUpdateDTO updatedto)

@@ -1,6 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.ServiceRespones;
 using Application.ViewModels.ComboProductDTOs;
+using Application.ViewModels.ProductDTOs;
 using AutoMapper;
 using Domain.Entites;
 using System;
@@ -214,6 +215,131 @@ namespace Application.Services
             return response;
         }
 
+        public async Task<ServiceResponse<List<ComboDetailsDTO>>> GetCombosWithProductsDetailsAsync()
+        {
+            var response = new ServiceResponse<List<ComboDetailsDTO>>();
+
+            try
+            {
+                // Lấy tất cả combo bao gồm các product bên trong
+                var combos = await _unitOfWork.ComboOfProductRepository.GetAllCombosWithProductsAsync();
+
+                var result = combos.Select(combo =>
+                {
+                    var totalPrice = combo.ComboOfProducts != null
+                        ? combo.ComboOfProducts
+                            .Where(cop => cop.Product != null)
+                            .Sum(cop => (cop.Product.Price ?? 0) * cop.Quantity)
+                        : 0;
+
+                    return new ComboDetailsDTO
+                    {
+                        ComboID = combo.Id,
+                        ComboName = combo.Name,
+                        Description = combo.Description,
+                        UrlImg = combo.UrlImg,
+                        Products = combo.ComboOfProducts != null
+                            ? combo.ComboOfProducts
+                                .Where(cop => cop.Product != null)
+                                .Select(cop => new ProductComboDTO
+                                {
+                                    Id = cop.Product.Id,
+                                    Name = cop.Product.Name,
+                                    Description = cop.Product.Description,
+                                    ProductType = cop.Product.ProductType,
+                                    Price = cop.Product.Price,
+                                    Quantity = cop.Quantity, // Thêm số lượng vào đây
+                                    URLCenter = cop.Product.URLCenter,
+                                    URLLeft = cop.Product.URLLeft,
+                                    URLRight = cop.Product.URLRight,
+                                    URLSide = cop.Product.URLSide
+                                }).ToList()
+                            : new List<ProductComboDTO>(),
+                        TotalPrice = totalPrice
+                    };
+                }).ToList();
+
+                response.Data = result;
+                response.Success = true;
+                response.Message = "Fetched all combos with product details successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+
+
+        public async Task<ServiceResponse<ComboDetailsDTO>> GetComboWithProductsDetailsByIdAsync(int comboId)
+        {
+            var response = new ServiceResponse<ComboDetailsDTO>();
+
+            try
+            {
+                // Lấy combo theo ID bao gồm các product bên trong
+                var combo = await _unitOfWork.ComboOfProductRepository.GetComboWithProductsByIdAsync(comboId);
+
+                if (combo == null)
+                {
+                    response.Success = false;
+                    response.Message = "Combo not found.";
+                    return response;
+                }
+
+                var totalPrice = combo.ComboOfProducts != null
+                    ? combo.ComboOfProducts
+                        .Where(cop => cop.Product != null)
+                        .Sum(cop => (cop.Product.Price ?? 0) * cop.Quantity)
+                    : 0;
+
+                // Mapping dữ liệu sang DTO
+                var comboDetails = new ComboDetailsDTO
+                {
+                    ComboID = combo.Id,
+                    ComboName = combo.Name,
+                    Description = combo.Description,
+                    UrlImg = combo.UrlImg,
+                    Products = combo.ComboOfProducts != null
+                        ? combo.ComboOfProducts
+                            .Where(cop => cop.Product != null)
+                            .Select(cop => new ProductComboDTO
+                            {
+                                Id = cop.Product.Id,
+                                Name = cop.Product.Name,
+                                Description = cop.Product.Description,
+                                ProductType = cop.Product.ProductType,
+                                Price = cop.Product.Price,
+                                Quantity = cop.Quantity, // Thêm số lượng vào đây
+                                URLCenter = cop.Product.URLCenter,
+                                URLLeft = cop.Product.URLLeft,
+                                URLRight = cop.Product.URLRight,
+                                URLSide = cop.Product.URLSide
+                            }).ToList()
+                        : new List<ProductComboDTO>(),
+                    TotalPrice = totalPrice
+                };
+
+                response.Data = comboDetails;
+                response.Success = true;
+                response.Message = "Fetched combo with product details successfully.";
+            }
+            catch (Exception ex)
+            {
+                response.Success = false;
+                response.ErrorMessages = new List<string> { ex.Message };
+            }
+
+            return response;
+        }
+
+
+
     }
+
+
 
 }

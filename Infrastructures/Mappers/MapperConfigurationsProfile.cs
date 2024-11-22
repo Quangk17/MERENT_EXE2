@@ -43,6 +43,18 @@ namespace Infrastructures.Mappers
             CreateMap<ComboOfProduct, ComboOfProductDTO>().ReverseMap();
             CreateMap<ComboOfProduct, ComboWithProductsDTO>().ReverseMap();
 
+            CreateMap<ComboOfProduct, ProductComboDTO>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Product.Id))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Product.Name))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Product.Description))
+            .ForMember(dest => dest.ProductType, opt => opt.MapFrom(src => src.Product.ProductType))
+            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Product.Price))
+            .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+            .ForMember(dest => dest.URLCenter, opt => opt.MapFrom(src => src.Product.URLCenter))
+            .ForMember(dest => dest.URLLeft, opt => opt.MapFrom(src => src.Product.URLLeft))
+            .ForMember(dest => dest.URLRight, opt => opt.MapFrom(src => src.Product.URLRight))
+            .ForMember(dest => dest.URLSide, opt => opt.MapFrom(src => src.Product.URLSide));
+
             //create
             CreateMap<User, AccountAddDTO>().ReverseMap();
             CreateMap<Product, ProductCreateDTO>().ReverseMap();
@@ -59,6 +71,7 @@ namespace Infrastructures.Mappers
 
             CreateMap<ComboOfProduct, ComboOfProductCreateDTO>().ReverseMap();
             CreateMap<ProductOrder, ProductOrderComboCreateDTO>().ReverseMap();
+            CreateMap<ComboOfProduct, ComboDetailsDTO>().ReverseMap();
             //update
             CreateMap<User, AccountUpdateDTO>().ReverseMap();
             CreateMap<Product, ProductUpdateDTO>().ReverseMap();

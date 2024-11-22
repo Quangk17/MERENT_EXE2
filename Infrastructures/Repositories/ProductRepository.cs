@@ -31,5 +31,9 @@ namespace Infrastructures.Repositories
                 .ToListAsync();
         }
 
+        public IQueryable<Product> Query()
+        {
+            return _dbContext.Products.AsQueryable();
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace Application.Repositories
     public interface IProductRepository: IGenericRepository<Product>
     {
         Task<List<Product>> GetAllProductsByIdsAsync(List<int> productIds);
+        IQueryable<Product> Query();
     }
 }
